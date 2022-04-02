@@ -1,38 +1,81 @@
 package com.monstersaku;
 
-import com.monstersaku.util.CSVReader;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
-    private static final List<String> CSV_FILE_PATHS = Collections.unmodifiableList(Arrays.asList(
-            "configs/monsterpool.csv",
-            "configs/movepool.csv",
-            "configs/element-type-effectivity-chart.csv"));
+    public static String gameState = "MainScreen";
+    public static void prompt(){
+        System.out.print("Monstersaku:" + gameState + "$ ");
+    }
 
     public static void main(String[] args) {
-        for (String fileName : CSV_FILE_PATHS) {
-            try {
-                System.out.printf("Filename: %s\n", fileName);
-                CSVReader reader = new CSVReader(new File(Main.class.getResource(fileName).toURI()), ";");
-                reader.setSkipHeader(true);
-                List<String[]> lines = reader.read();
-                System.out.println("=========== CONTENT START ===========");
-                for (String[] line : lines) {
-                    for (String word : line) {
-                        System.out.printf("%s ", word);
-                    }
-                    System.out.println();
-                }
-                System.out.println("=========== CONTENT END ===========");
-                System.out.println();
-            } catch (Exception e) {
-                // do nothing
+        boolean loopflag = true;
+        Scanner input = new Scanner(System.in);
+        Game game;
+
+        System.out.println("=============");
+        System.out.println("MONSTER SAKU");
+        System.out.println("=============");
+        System.out.println();
+        Main.showMainScreenHelp();
+
+        while(loopflag){
+            Main.prompt();
+            String commandTemp = input.next();
+
+            // 1. Start
+            if (commandTemp.equalsIgnoreCase("s") || commandTemp.equalsIgnoreCase("Start") || commandTemp.equalsIgnoreCase("1")){
+                gameState = "Game";
+                // new game
+                // play game
+            } 
+            else if (commandTemp.equalsIgnoreCase("h") || commandTemp.equalsIgnoreCase("Help") || commandTemp.equalsIgnoreCase("2")){
+                showMainScreenHelp();
+            }
+            else if (commandTemp.equalsIgnoreCase("e") || commandTemp.equalsIgnoreCase("Exit") || commandTemp.equalsIgnoreCase("3")){
+                System.out.println("==================================");
+                System.out.println("THANK YOU FOR PLAYING MONSTER SAKU");
+                System.out.println("==================================");
+            }
+            else{
+                wrongInputCommand();
+                showMainScreenHelp();
             }
         }
     }
+
+    public static void clearConsole(){
+        try{
+            String os = System.getProperty("os.name");
+            if (os.contains("Windows")){
+                Runtime.getRuntime().exec("cls");
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public static void showMainScreenHelp(){
+        System.out.println("Main Screen Instructions:");
+        System.out.println("1. [Start / S / 1] = Play Game");
+        System.out.println("2. [Help / H / 2] = Show This Message");
+        System.out.println("3. [Exit / E / 3] = Exit The Game\n");
+    }
+
+    public static void showGameHelp(){
+        System.out.println("Game Instructions:");
+        System.out.println("1. Skip = Skip turns");
+        System.out.println("2. Plant = Set plant in a tile");
+        System.out.println("3. Remove = Remove a plant in a tile");
+        System.out.println("4. Check = Check a tile");
+        System.out.println("5. Help = Show this message");
+        System.out.println("6. Exit = Exit the Game Stage");
+    }
+
+    public static void wrongInputCommand(){
+        System.out.println("Wrong Input Command, read the instructions.");
+    } 
 }

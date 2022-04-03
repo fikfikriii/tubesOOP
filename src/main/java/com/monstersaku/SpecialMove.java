@@ -6,6 +6,7 @@
 */
 
 // There isn't any different from NormalMove
+package com.monstersaku;
 
 public class SpecialMove extends Move {
     private int basepower;

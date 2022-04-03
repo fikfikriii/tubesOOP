@@ -4,6 +4,7 @@
     Fungsi: Menampung Moveset status dari monster
     Keterangan: Tidak ada fungsi perhitungan damage akibat status karena terkait MONSTER
 */
+package com.monstersaku;
 
 public class StatusMove extends Move {
     private String statusEffect;

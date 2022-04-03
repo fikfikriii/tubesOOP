@@ -1,3 +1,4 @@
+package com.monstersaku;
 /*
     Class ElementType
     Tipe: Enum

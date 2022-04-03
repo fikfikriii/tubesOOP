@@ -6,6 +6,7 @@
 */
 
 // Default move tidak extends move karena tidak punya ammunition
+package com.monstersaku;
 
 public abstract class DefaultMove {
     private String name;

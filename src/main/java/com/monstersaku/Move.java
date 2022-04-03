@@ -1,3 +1,4 @@
+package com.monstersaku;
 /*
     Class Move
     Tipe: Abstract Class
@@ -5,7 +6,8 @@
     Keterangan: Tidak ada fungsi perhitungan damage karena memerlukan STATS
 */
 
-public abstract class Move {
+public class Move {
+    private int id;
     private String name;
     private ElementType elementType;
     private int accuracy;
@@ -14,7 +16,10 @@ public abstract class Move {
     private String target;
 
     // Konstruktor
-    public Move(String name, ElementType elementType, int accuracy, int priority, int ammunition, String target) {
+    public Move(){}
+
+    public Move(int id, String name, ElementType elementType, int accuracy, int priority, int ammunition, String target) {
+        this.id = id;
         this.name = name;
         this.elementType =  elementType;
         this.accuracy = accuracy;
@@ -24,6 +29,10 @@ public abstract class Move {
     }
 
     // Getter
+    public int getMoveID(){
+        return this.id;
+    }
+
     public String getMoveName() {
         return this.name;
     }
@@ -46,5 +55,10 @@ public abstract class Move {
 
     public String getTarget() {
         return this.target;
+    }
+
+    // setter
+    public void moved(){
+        this.ammunition -= 1;
     }
 }

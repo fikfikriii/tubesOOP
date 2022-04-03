@@ -1,5 +1,3 @@
-package com.monstersaku;
-
 // Kode coba-coba utk Move
 package com.monstersaku;
 

@@ -1,4 +1,3 @@
-package com.monstersaku;
 /*
     Class NormalMove
     Tipe: Class 

@@ -4,6 +4,7 @@
     Fungsi: Menampung Moveset normal dari monster
     Keterangan: Tidak ada fungsi perhitungan damage karena memerlukan STATS
 */
+package com.monstersaku;
 
 public class NormalMove extends Move {
     private int basepower;

@@ -1,3 +1,4 @@
+package com.monstersaku;
 /*
     Class SpecialMove
     Tipe: Class
@@ -13,8 +14,8 @@ public class SpecialMove extends Move {
     // Asumsi: semua special move target ke lawan (bukan self)
 
     // Konstruktor
-    public SpecialMove (String name, ElementType elementType, int accuracy, int priority, int ammunition, String target, int basepower) {
-        super(name, elementType, accuracy, priority, ammunition, target);
+    public SpecialMove (int id, String name, ElementType elementType, int accuracy, int priority, int ammunition, String target, int basepower) {
+        super(id, name, elementType, accuracy, priority, ammunition, target);
         this.basepower = basepower;
     }
 

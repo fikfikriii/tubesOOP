@@ -1,9 +1,11 @@
+package com.monstersaku;
+
 // Kode coba-coba utk Move
 package com.monstersaku;
 
 public class DriverMove {
     public static void main(String[] args) {
-        NormalMove pukul = new NormalMove("Pukul", ElementType.NORMAL, 100, 1, 10, "ENEMY", 50);
+        NormalMove pukul = new NormalMove(1, "Pukul", ElementType.NORMAL, 100, 1, 10, "ENEMY", 50);
 
         System.out.println("Nama: " + pukul.getMoveName());
         System.out.println("Type: " + pukul.getMoveElType());

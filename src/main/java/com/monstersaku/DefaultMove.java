@@ -1,3 +1,5 @@
+package com.monstersaku;
+
 /*
     Class DefaultMove
     Tipe: Class

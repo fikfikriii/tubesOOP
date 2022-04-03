@@ -1,3 +1,4 @@
+package com.monstersaku;
 /*
     Class NormalMove
     Tipe: Class 
@@ -10,8 +11,8 @@ public class NormalMove extends Move {
     private int basepower;
 
     // Konstruktor
-    public NormalMove (String name, ElementType elementType, int accuracy, int priority, int ammunition, String target, int basepower) {
-        super(name, elementType, accuracy, priority, ammunition, target);
+    public NormalMove (int id, String name, ElementType elementType, int accuracy, int priority, int ammunition, String target, int basepower) {
+        super(id, name, elementType, accuracy, priority, ammunition, target);
         this.basepower = basepower;
     }
 

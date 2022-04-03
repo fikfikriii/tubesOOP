@@ -4,14 +4,11 @@ import java.util.Scanner;
 
 public class Main {
     public static String gameState = "MainScreen";
-    public static void prompt(){
-        System.out.print("Monstersaku:" + gameState + "$ ");
-    }
 
     public static void main(String[] args) {
         boolean loopflag = true;
         Scanner input = new Scanner(System.in);
-        Game game;
+        Game game = new Game();
 
         System.out.println("=============");
         System.out.println("MONSTER SAKU");
@@ -20,13 +17,13 @@ public class Main {
         Main.showMainScreenHelp();
 
         while(loopflag){
-            Main.prompt();
+            System.out.printf("Masukan perintah: ");
             String commandTemp = input.next();
 
             // 1. Start
             if (commandTemp.equalsIgnoreCase("s") || commandTemp.equalsIgnoreCase("Start") || commandTemp.equalsIgnoreCase("1")){
                 gameState = "Game";
-                // new game
+                game.playGame();
                 // play game
             } 
             else if (commandTemp.equalsIgnoreCase("h") || commandTemp.equalsIgnoreCase("Help") || commandTemp.equalsIgnoreCase("2")){
@@ -59,7 +56,7 @@ public class Main {
     }
 
     public static void showMainScreenHelp(){
-        System.out.println("Main Screen Instructions:");
+        System.out.println("MAIN SCREEN INSTRUCTIONS:");
         System.out.println("1. [Start / S / 1] = Play Game");
         System.out.println("2. [Help / H / 2] = Show This Message");
         System.out.println("3. [Exit / E / 3] = Exit The Game\n");

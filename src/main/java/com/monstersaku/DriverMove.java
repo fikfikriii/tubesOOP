@@ -1,4 +1,5 @@
 // Kode coba-coba utk Move
+package com.monstersaku;
 
 public class DriverMove {
     public static void main(String[] args) {

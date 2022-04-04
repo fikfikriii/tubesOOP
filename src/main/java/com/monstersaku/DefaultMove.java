@@ -15,6 +15,7 @@ public abstract class DefaultMove {
     private ElementType elementType;
     private int accuracy;
     private int priority;
+    private int basepower;
 
     // Konstruktor
     public DefaultMove() {
@@ -22,6 +23,7 @@ public abstract class DefaultMove {
         this.elementType =  ElementType.NORMAL;
         this.accuracy = 100;
         this.priority = 0;
+        this.basepower = 50;
     }
 
     // Getter
@@ -39,5 +41,9 @@ public abstract class DefaultMove {
 
     public int getMovePriority() {
         return this.priority;
+    }
+    
+    public int getBasePower() {
+        return this.basepower;
     }
 }

@@ -293,7 +293,7 @@ public class Game {
         return (int) damage;
     }
 
-    public int damageSpecial(NormalMove move, Monster self, Monster enemy) {
+    public int damageSpecial(SpecialMove move, Monster self, Monster enemy) {
         double random = 0.85 + Math.random() * (0.15);
         double damage = (move.getBasePower() * (self.getSpAttack() / enemy.getSpDefense()) + 2) * random * getEffectivity(self, enemy) * self.IsBurn();
         return (int) damage;

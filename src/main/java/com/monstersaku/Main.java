@@ -62,16 +62,6 @@ public class Main {
         System.out.println("3. [Exit / E / 3] = Exit The Game\n");
     }
 
-    public static void showGameHelp(){
-        System.out.println("Game Instructions:");
-        System.out.println("1. Skip = Skip turns");
-        System.out.println("2. Plant = Set plant in a tile");
-        System.out.println("3. Remove = Remove a plant in a tile");
-        System.out.println("4. Check = Check a tile");
-        System.out.println("5. Help = Show this message");
-        System.out.println("6. Exit = Exit the Game Stage");
-    }
-
     public static void wrongInputCommand(){
         System.out.println("Wrong Input Command, read the instructions.");
     } 

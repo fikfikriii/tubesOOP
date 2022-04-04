@@ -284,5 +284,31 @@ public class Game {
     public void attack(Move m, Player enemy){
 
     }
+    
+    /* gini kah? :(
+    
+    public int damageNormal(NormalMove move, Monster self, Monster enemy) {
+        double random = 0.85 + Math.random() * (0.15);
+        double damage = (move.getBasePower() * (self.getAttack() / enemy.getDefense()) + 2) * random * getEffectivity(self, enemy) * self.IsBurn();
+        return (int) damage;
+    }
+
+    public int damageSpecial(NormalMove move, Monster self, Monster enemy) {
+        double random = 0.85 + Math.random() * (0.15);
+        double damage = (move.getBasePower() * (self.getSpAttack() / enemy.getSpDefense()) + 2) * random * getEffectivity(self, enemy) * self.IsBurn();
+        return (int) damage;
+    }
+    
+    public int damageDefault(Monster self, Monster enemy) {
+        double random = 0.85 + Math.random() * (0.15);
+        double damage = (50 * (self.getAttack() / enemy.getDefense()) + 2) * random * getEffectivity(self, enemy) * self.IsBurn();
+        return (int) damage;
+    }
+
+    public int afterDamage(Monster monster) {
+
+    }
+
+    */
 
 }

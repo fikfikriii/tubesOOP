@@ -20,8 +20,13 @@ public class Game {
             "configs/monsterpool.csv"));
 
     public static boolean loop = true;
+
     Player player1 = new Player();
     Player player2 = new Player();
+    MonsterPool mnstrPool = new MonsterPool();
+    MovePool mvPool = new MovePool();
+    EffectivityPool ePool = new EffectivityPool();
+    
     MonsterPool player1MonsterPool;
     MonsterPool player2MonsterPool;
 
@@ -32,9 +37,36 @@ public class Game {
     public void playGame(){
         inputPlayer();
         System.out.println();
-        MonsterPool mnstrPool = new MonsterPool();
-        MovePool mvPool = new MovePool();
-        EffectivityPool ePool = new EffectivityPool();
+        
+        readConfig();
+
+        // get 6 random monster for each player
+        player1.setMonsterPool(6, mnstrPool);
+        player2.setMonsterPool(6, mnstrPool);
+        System.out.printf("List monster %s: %n", player1.getPlayerName());
+        player1.getMonsterPool().printMonster();
+        System.out.println();
+        System.out.printf("List monster %s: %n", player2.getPlayerName());
+        player2.getMonsterPool().printMonster();
+
+        // initialize
+        initializeBattle();
+
+        // get current monster
+        player1.randomMonster();
+        player1.printCurrentMonster();
+        player2.randomMonster();
+        player2.printCurrentMonster();
+        
+        System.out.println();
+        boolean loop = true;
+        while (loop){
+            turnGame();
+        }
+
+    }
+
+    public void readConfig(){
         for (String fileName : CSV_FILE_PATHS) {
             try {
                 CSVReader reader = new CSVReader(new File(BackupMain.class.getResource(fileName).toURI()), ";");
@@ -160,31 +192,6 @@ public class Game {
                 // do nothing
             }
         }
-
-        // get 6 random monster for each player
-        player1.setMonsterPool(6, mnstrPool);
-        player2.setMonsterPool(6, mnstrPool);
-        System.out.printf("List monster %s: %n", player1.getPlayerName());
-        player1.getMonsterPool().printMonster();
-        System.out.println();
-        System.out.printf("List monster %s: %n", player2.getPlayerName());
-        player2.getMonsterPool().printMonster();
-
-        // initialize
-        initializeBattle();
-
-        // get current monster
-        player1.randomMonster();
-        player1.printCurrentMonster();
-        player2.randomMonster();
-        player2.printCurrentMonster();
-        
-        System.out.println();
-        boolean loop = true;
-        while (loop){
-            turnGame();
-        }
-
     }
 
     public void inputPlayer(){

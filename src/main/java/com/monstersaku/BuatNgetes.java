@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.ArrayList;
 import java.lang.Integer;
+import java.lang.Thread;
 
 public class BuatNgetes {
     private static final List<String> CSV_FILE_PATHS = Collections.unmodifiableList(Arrays.asList(
@@ -19,30 +20,57 @@ public class BuatNgetes {
             "configs/monsterpool.csv"));
 
     public static boolean loop = true;
-    Player player1;
-    Player player2;
+    Player player1 = new Player();
+    Player player2 = new Player();
     MonsterPool player1MonsterPool;
     MonsterPool player2MonsterPool;
-
+    MonsterPool mnstrPool = new MonsterPool();
+    MovePool mvPool = new MovePool();
+    EffectivityPool ePool = new EffectivityPool();
     Scanner scanner = new Scanner(System.in);
-    
+
+    public BuatNgetes(){}
+
     public void playGame(){
         inputPlayer();
         System.out.println();
-        MonsterPool mnstrPool = new MonsterPool();
-        MovePool mvPool = new MovePool();
-        EffectivityPool ePool = new EffectivityPool();
+        readConfig();
+
+        // get 6 random monster for each player
+        player1.setMonsterPool(6, mnstrPool);
+        player2.setMonsterPool(6, mnstrPool);
+        System.out.printf("List monster %s: %n", player1.getPlayerName());
+        player1.getMonsterPool().printMonster();
+        System.out.println();
+        System.out.printf("List monster %s: %n", player2.getPlayerName());
+        player2.getMonsterPool().printMonster();
+
+        // initialize
+        initializeBattle();
+
+        // get current monster
+        player1.randomMonster();
+        player1.printCurrentMonster();
+        player2.randomMonster();
+        player2.printCurrentMonster();
+        
+        System.out.println();
+        boolean loop = true;
+        while (loop){
+            turnGame();
+        }
+
+    }
+
+    public void readConfig(){
         for (String fileName : CSV_FILE_PATHS) {
             try {
-                System.out.printf("Filename: %s\n", fileName);
                 CSVReader reader = new CSVReader(new File(BackupMain.class.getResource(fileName).toURI()), ";");
                 reader.setSkipHeader(true);
                 List<String[]> lines = reader.read();
-                System.out.println("=========== CONTENT START ===========");
                 for (String[] line : lines) {
                     List<String> ls = new ArrayList<String>();
                     for (String word : line) {
-                        System.out.printf("%s ", word);
                         ls.add(word);
                     }
 
@@ -154,18 +182,12 @@ public class BuatNgetes {
                         mnstrPool.addMonster(m);
                     }
 
-
-                    System.out.println();
                 }
-
-                System.out.println("=========== CONTENT END ===========");
-                System.out.println();
 
             } catch (Exception e) {
                 // do nothing
             }
         }
-        
     }
 
     public void inputPlayer(){
@@ -179,53 +201,117 @@ public class BuatNgetes {
         player2.setPlayerName(p2Name);
     }
 
-    public void turnGame(){
-        while(loop){
-            System.out.printf("Masukan command player 1: ");
-            String command1 = scanner.next();
-            System.out.printf("Masukan command player 2: ");
-            String command2 = scanner.next();
-
-            if (command1.equalsIgnoreCase("Switch")){
-                boolean switched1 = false;
-                while(!switched1){
-                    // print list monster yang masi hidup player1;
-                    // switch monster;
-                    command1 = scanner.next();
-                    if (command1.equalsIgnoreCase("Move")){
-                        switched1 = true;
-                    }
-                }
-            } else if (command1.equalsIgnoreCase("Move")){
-                /* if (isSleep(monster player 1)){
-                    System.out.println("Monster <nama monster> tidak dapat bergerak!");
-                } else {
-                    System.out.println("Move mana yang akan dilakukan oleh <nama monster>");
-                    // print info move dari monster tersebut;
-                    System.out.printf("Masukan kode move dalam integer: ");
-                    int moveCode = scanner.nextInt();
-                    // sesuaiin moveCode sama code move di monster
-                } */
+    public void initializeBattle(){
+        System.out.println();
+        System.out.printf("Initializing Battle.");
+        try {
+            for(int n = 0; n< 10; n++) {
+             Thread.sleep(200);
+             System.out.printf(".");
             }
-            
+        } catch(InterruptedException e) {
+            System.out.println("main interrupted");
+        }
+        System.out.println();
+        System.out.println();
+    }
+
+    public void wrongInput(){
+        System.out.println("Perintah tidak valid. Perhatikan instruksi.");
+    }
+
+    public void showGameMenu(){
+        System.out.println("GAME SCREEN INSTRUCTIONS: ");
+        System.out.println("[Switch] = Mengganti monster");
+        System.out.println("[Move] = Melancarkan serangan");
+        System.out.println("[MonsterInfo] = Menampilkan informasi monster-monster saku");
+        System.out.println("[GameInfo] = Menampilkan informasi permainan (in game monster, turn)");
+    }
+
+    public void switchMonster(Player p){
+        p.printCurrentMonster();
+        System.out.printf("Pilihan monsters bagi %s:%n", p.getPlayerName());
+        p.switchOption();
+        System.out.printf("Masukan pilihan [dalam integer]: ");
+        int x = scanner.nextInt();
+        p.getSwitchMonster(x);
+    }
+
+    public void turnGame(){
+        showGameMenu();
+        System.out.printf("Masukan command player 1: ");
+        String command1 = scanner.next();
+        System.out.printf("Masukan command player 2: ");
+        String command2 = scanner.next();
+
+        if (command1.equalsIgnoreCase("Switch")){
+            switchMonster(player1);
             if (command2.equalsIgnoreCase("Switch")){
-                boolean switched2 = false;
-                while(!switched2){
-                    // print list monster yang masi hidup player2;
-                    // switch monster;
-                    command2 = scanner.next();
-                    if (command2.equalsIgnoreCase("Move")){
-                        switched2 = true;
-                    }
-                }
-            } else if (command2.equalsIgnoreCase("Move")){
-                System.out.println("Move mana yang akan dilakukan oleh <nama monster>");
-                // print info move dari monster tersebut;
-                System.out.printf("Masukan kode move dalam integer: ");
-                int moveCode = scanner.nextInt();
-                // sesuaiin moveCode sama code move di monster
-            }      
+                switchMonster(player2);
+            }
+            else if (command2.equalsIgnoreCase("Move")){
+                // lancarkan serangan
+            }
+            else {
+                wrongInput();
+            }
+        }
+
+        else if (command1.equalsIgnoreCase("Move")){
+            if (command2.equalsIgnoreCase("Switch")){
+                switchMonster(player2);
+            }
+            else if (command2.equalsIgnoreCase("Move")){
+                // lancarkan serangan player 1
+                // lancarkan serangan player 2
+            }
+            else {
+                wrongInput();
+            }
+        }
+
+        else {
+            wrongInput();
         }
     }
+
+    public void move(Player p){
+        System.out.printf("Pilihan move bagi %s:%n", p.getCurrentMonster());
+        p.getCurrentMonster().getMoves().printMove();
+        System.out.printf("Masukan pilihan move [dalam integer]: ");
+        int x = scanner.nextInt();
+        Move m = p.getCurrentMonster().getMoveMonster(x);
+        System.out.printf("%s menggunakan %s%n", p.getPlayerName(), m.getMoveName());
+    }
+
+    public void attack(Move m, Player enemy){
+
+    }
+    
+    /* gini kah? :(
+    
+    public int damageNormal(NormalMove move, Monster self, Monster enemy) {
+        double random = 0.85 + Math.random() * (0.15);
+        double damage = (move.getBasePower() * (self.getAttack() / enemy.getDefense()) + 2) * random * getEffectivity(self, enemy) * self.IsBurn();
+        return (int) damage;
+    }
+
+    public int damageSpecial(SpecialMove move, Monster self, Monster enemy) {
+        double random = 0.85 + Math.random() * (0.15);
+        double damage = (move.getBasePower() * (self.getSpAttack() / enemy.getSpDefense()) + 2) * random * getEffectivity(self, enemy) * self.IsBurn();
+        return (int) damage;
+    }
+    
+    public int damageDefault(Monster self, Monster enemy) {
+        double random = 0.85 + Math.random() * (0.15);
+        double damage = (50 * (self.getAttack() / enemy.getDefense()) + 2) * random * getEffectivity(self, enemy) * self.IsBurn();
+        return (int) damage;
+    }
+
+    public int afterDamage(Monster monster) {
+
+    }
+
+    */
 
 }

@@ -23,6 +23,10 @@ public class Monster {
         this.conditioned = false;
         this.isAlive = true;
     }
+    
+    public MovePool getMoves(){
+        return this.moves;
+    }
 
     public void addMonsterMove(Move m){
         (this.moves).addMove(m);
@@ -42,5 +46,17 @@ public class Monster {
 
     public void printMonsterName(){
         System.out.println("Monster Name: " + this.name);
+    }
+
+    public Move getMoveMonster(int x){
+        Move m = new Move();
+        for (int i = 0; i <= moves.getListMove().size(); i++){
+            if (i==x-1){
+                m = (Move)moves.getListMove().get(i);
+                m.moved();
+                break;
+            }
+        }
+        return m;
     }
 }

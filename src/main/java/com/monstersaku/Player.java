@@ -42,33 +42,39 @@ public class Player {
     }
 
     public void setMonsterPool(int i, MonsterPool listMonster){
-        List<Monster> copyMonsterPool = listMonster.getListMonster();
-        List<Monster> copyList = new ArrayList<Monster>(copyMonsterPool);
-        List<Monster> randomized = new ArrayList<Monster>();
-        for (int j = 0; j < i; j++){
-            int index = new Random().nextInt(copyList.size());
-            Monster monster = copyList.get(index);
-            randomized.add(monster);
-            copyList.remove(index);
+        try {
+            System.out.println("Getting random monster for " + this.name + " ....");
+            Thread.sleep(3000);
+            List<Monster> copyMonsterPool = listMonster.getListMonster();
+            List<Monster> copyList = new ArrayList<Monster>(copyMonsterPool);
+            List<Monster> randomized = new ArrayList<Monster>();
+            for (int j = 0; j < i; j++){
+                int index = new Random().nextInt(copyList.size());
+                Monster monster = copyList.get(index);
+                randomized.add(monster);
+                copyList.remove(index);
+            }
+            MonsterPool mp = new MonsterPool();
+            mp.setListMonster(randomized);
+            this.monsters = mp;
+        } catch (Exception e) {
+            System.out.println("Main interrupted");
         }
-        MonsterPool mp = new MonsterPool();
-        mp.setListMonster(randomized);
-
-        this.monsters = mp;
+        System.out.println();
     }
 
     // print player monster pool
 
     public void randomMonster(){
         try {
-            System.out.printf("Getting random monster for %s", this.name + " ....");
-            Thread.sleep(1000);
+            System.out.println(this.name + " choosing monster....");
+            Thread.sleep(1500);
             int index = new Random().nextInt(monsters.getSize());
             currentMonster = (monsters.getListMonster()).get(index);
         } catch(InterruptedException e) {
-            System.out.println("main interrupted");
+            System.out.println("Main interrupted");
         }
-        System.out.println();
+        
     }
 
     public void switchOption(){
@@ -93,5 +99,6 @@ public class Player {
 
     public void printCurrentMonster(){
         System.out.printf("Saat ini %s sedang menggunakan %s%n", this.getPlayerName(), this.getCurrentMonster().getMonsterName());
+        System.out.println();
     }
 }

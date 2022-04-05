@@ -102,11 +102,13 @@ public class Game {
 
                         if (tipe.equals("NORMAL")){
                             Integer basepower = Integer.parseInt(ls.get(8));
-                            NormalMove n = new NormalMove(id, name, elementType, accuracy, priority, ammunition, target, basepower);
+                            NormalMove n = new NormalMove(id, tipe, name, elementType, accuracy, priority, ammunition, target, basepower);
+                            n.print();
                             mvPool.addMove(n);
                         } else if (tipe.equals("SPECIAL")){
                             Integer basepower = Integer.parseInt(ls.get(8));
-                            SpecialMove s = new SpecialMove(id, name, elementType, accuracy, priority, ammunition, target, basepower);
+                            SpecialMove s = new SpecialMove(id, tipe, name, elementType, accuracy, priority, ammunition, target, basepower);
+                            s.print();
                             mvPool.addMove(s);
                         } else if (tipe.equals("STATUS")){
                             String efek = ls.get(8);
@@ -119,7 +121,9 @@ public class Game {
                             Integer spAtt = Integer.parseInt(listNum.get(3));
                             Integer spDef = Integer.parseInt(listNum.get(4));
                             Integer speed = Integer.parseInt(listNum.get(5));
-                            StatusMove st = new StatusMove(id, name, elementType, accuracy, priority, ammunition, target, efek, HP, att, def, spAtt, spDef, speed);
+                            StatusMove st = new StatusMove(id, tipe, name, elementType, accuracy, priority, ammunition, target, efek, HP, att, def, spAtt, spDef, speed);
+                            st.print();
+
                             mvPool.addMove(st);
                         }
 
@@ -230,6 +234,7 @@ public class Game {
         System.out.println("[Move] = Melancarkan serangan");
         System.out.println("[MonsterInfo] = Menampilkan informasi monster-monster saku");
         System.out.println("[GameInfo] = Menampilkan informasi permainan (in game monster, turn)");
+        System.out.println();
     }
 
     public void switchMonster(Player p){
@@ -254,7 +259,11 @@ public class Game {
                 switchMonster(player2);
             }
             else if (command2.equalsIgnoreCase("Move")){
-                // lancarkan serangan
+                // check dulu monster player 2 sleep atau engga
+                // if sleep then
+                // System.out.printf("%s cannot move%n", player2.getCurrentMonster().getMonsterName());
+                // if not sleep then
+                move(player2);
             }
             else {
                 wrongInput();
@@ -264,10 +273,41 @@ public class Game {
         else if (command1.equalsIgnoreCase("Move")){
             if (command2.equalsIgnoreCase("Switch")){
                 switchMonster(player2);
+                // player 1 nyerang
+                // check dulu monster player 1 sleep atau engga
+                // if sleep then
+                // System.out.printf("%s cannot move%n", player1.getCurrentMonster().getMonsterName());
+                // if not sleep then
+                move(player1);
             }
             else if (command2.equalsIgnoreCase("Move")){
-                // lancarkan serangan player 1
-                // lancarkan serangan player 2
+                if (compareMonsterMove(player1.getCurrentMonster(), player2.getCurrentMonster()) == 1){
+                    // player 1 nyerang
+                    // check dulu monster player 1 sleep atau engga
+                    // if sleep then
+                    // System.out.printf("%s cannot move%n", player1.getCurrentMonster().getMonsterName());
+                    // if not sleep then
+                    move(player1);
+
+                    // check dulu monster player 2 sleep atau engga
+                    // if sleep then
+                    // System.out.printf("%s cannot move%n", player2.getCurrentMonster().getMonsterName());
+                    // if not sleep then
+                    move(player2);
+                } else {
+                    // player 2 nyerang
+                    // check dulu monster player 2 sleep atau engga
+                    // if sleep then
+                    // System.out.printf("%s cannot move%n", player2.getCurrentMonster().getMonsterName());
+                    // if not sleep then
+                    move(player2);
+
+                    // check dulu monster player 1 sleep atau engga
+                    // if sleep then
+                    // System.out.printf("%s cannot move%n", player1.getCurrentMonster().getMonsterName());
+                    // if not sleep then
+                    move(player1);
+                }
             }
             else {
                 wrongInput();
@@ -280,42 +320,52 @@ public class Game {
     }
 
     public void move(Player p){
-        System.out.printf("Pilihan move bagi %s:%n", p.getCurrentMonster());
+        System.out.printf("Pilihan move bagi %s:%n", p.getCurrentMonster().getMonsterName());
         p.getCurrentMonster().getMoves().printMove();
         System.out.printf("Masukan pilihan move [dalam integer]: ");
         int x = scanner.nextInt();
         Move m = p.getCurrentMonster().getMoveMonster(x);
-        System.out.printf("%s menggunakan %s%n", p.getPlayerName(), m.getMoveName());
+        System.out.printf("%s menggunakan %s%n", p.getCurrentMonster().getMonsterName(), m.getMoveName());
     }
 
-    public void attack(Move m, Player enemy){
-
-    }
-    
-    /* gini kah? :(
-    
-    public int damageNormal(NormalMove move, Monster self, Monster enemy) {
-        double random = 0.85 + Math.random() * (0.15);
-        double damage = (move.getBasePower() * (self.getAttack() / enemy.getDefense()) + 2) * random * getEffectivity(self, enemy) * self.IsBurn();
-        return (int) damage;
-    }
-
-    public int damageSpecial(SpecialMove move, Monster self, Monster enemy) {
-        double random = 0.85 + Math.random() * (0.15);
-        double damage = (move.getBasePower() * (self.getSpAttack() / enemy.getSpDefense()) + 2) * random * getEffectivity(self, enemy) * self.IsBurn();
-        return (int) damage;
+    public int compareMonsterMove(Monster m1, Monster m2){
+        if (m1.getCurrentMove().getMovePriority() > m2.getCurrentMove().getMovePriority()){
+            return 1;
+        } else if (m1.getCurrentMove().getMovePriority() < m2.getCurrentMove().getMovePriority()){
+            return 2;
+        } else {
+            if (m1.getStats().getSpeed() >= m2.getStats().getSpeed()){
+                return 1;
+            } else{
+                return 2;
+            }
+        }
     }
     
-    public int damageDefault(Monster self, Monster enemy) {
-        double random = 0.85 + Math.random() * (0.15);
-        double damage = (50 * (self.getAttack() / enemy.getDefense()) + 2) * random * getEffectivity(self, enemy) * self.IsBurn();
-        return (int) damage;
-    }
+    //gini kah? :(
+    
+    // public int damageNormal(NormalMove move, Monster self, Monster enemy) {
+    //     double random = 0.85 + Math.random() * (0.15);
+    //     double damage = (move.getBasePower() * (self.getAttack() / enemy.getDefense()) + 2) * random * getEffectivity(self, enemy) * self.IsBurn();
+    //     return (int) damage;
+    // }
 
-    public int afterDamage(Monster monster) {
+    // public int damageSpecial(SpecialMove move, Monster self, Monster enemy) {
+    //     double random = 0.85 + Math.random() * (0.15);
+    //     double damage = (move.getBasePower() * (self.getSpAttack() / enemy.getSpDefense()) + 2) * random * getEffectivity(self, enemy) * self.IsBurn();
+    //     return (int) damage;
+    // }
+    
+    // public int damageDefault(Monster self, Monster enemy) {
+    //     double random = 0.85 + Math.random() * (0.15);
+    //     double damage = (50 * (self.getAttack() / enemy.getDefense()) + 2) * random * getEffectivity(self, enemy) * self.IsBurn();
+    //     return (int) damage;
+    // }
 
-    }
+    // public int afterDamage(Monster monster) {
 
-    */
+    // }
+
+    
 
 }

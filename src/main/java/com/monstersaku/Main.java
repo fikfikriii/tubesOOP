@@ -39,6 +39,8 @@ public class Main {
                 showMainScreenHelp();
             }
         }
+
+        input.close();
     }
 
     public static void clearConsole(){

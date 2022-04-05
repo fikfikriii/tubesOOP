@@ -14,6 +14,11 @@ public class EffectivityPool {
         this.listEffectivity = listEffectivity;
     }
 
+    //getter
+    public List<Effectivity> getListEffecitivty(){
+        return this.listEffectivity;
+    }
+
     public void addEffectivity(Effectivity m){
         (this.listEffectivity).add(m);
     }

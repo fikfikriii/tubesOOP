@@ -10,13 +10,8 @@ public class NormalMove extends Move {
     private int basepower;
 
     // Konstruktor
-<<<<<<< Updated upstream
-    public NormalMove (String name, ElementType elementType, int accuracy, int priority, int ammunition, String target, int basepower) {
-        super(name, elementType, accuracy, priority, ammunition, target);
-=======
     public NormalMove (int id, String moveType, String name, ElementType elementType, int accuracy, int priority, int ammunition, String target, int basepower) {
         super(id, moveType, name, elementType, accuracy, priority, ammunition, target);
->>>>>>> Stashed changes
         this.basepower = basepower;
     }
 

@@ -1,3 +1,5 @@
+package com.monstersaku;
+
 /*
     Class Move
     Tipe: Abstract Class
@@ -5,16 +7,13 @@
     Keterangan: Tidak ada fungsi perhitungan damage karena memerlukan STATS
 */
 
-<<<<<<< Updated upstream
-public abstract class Move {
-=======
+
 import java.util.List;
 import java.util.ArrayList;
 
 public class Move {
     private int id;
     private String moveType;
->>>>>>> Stashed changes
     private String name;
     private ElementType elementType;
     private int accuracy;
@@ -23,15 +22,12 @@ public class Move {
     private String target;
 
     // Konstruktor
-<<<<<<< Updated upstream
-    public Move(String name, ElementType elementType, int accuracy, int priority, int ammunition, String target) {
-=======
+
     public Move(){}
 
     public Move(int id, String moveType, String name, ElementType elementType, int accuracy, int priority, int ammunition, String target) {
         this.id = id;
         this.moveType = moveType;
->>>>>>> Stashed changes
         this.name = name;
         this.elementType =  elementType;
         this.accuracy = accuracy;
@@ -52,6 +48,10 @@ public class Move {
     }
 
     // Getter
+    public int getMoveID(){
+        return this.id;
+    }
+    
     public String getMoveName() {
         return this.name;
     }
@@ -75,9 +75,6 @@ public class Move {
     public String getTarget() {
         return this.target;
     }
-<<<<<<< Updated upstream
-}
-=======
 
     // setter
     public void moved(){
@@ -112,4 +109,3 @@ public class Move {
         return (int) damage;
     }
 }
->>>>>>> Stashed changes

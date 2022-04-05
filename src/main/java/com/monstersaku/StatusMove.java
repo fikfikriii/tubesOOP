@@ -8,18 +8,6 @@ package com.monstersaku;
 
 public class StatusMove extends Move {
     private String statusEffect;
-<<<<<<< Updated upstream
-    // private int atEff;
-    // private int defEff;
-    // private int spAtEff;
-    // private int spDefEff;
-    // private int spdEff;
-
-    // Konstruktor
-    public StatusMove (String name, ElementType elementType, int accuracy, int priority, int ammunition, String target, String statusEffect) {
-        super(name, elementType, accuracy, priority, ammunition, target);
-        this.statusEffect = statusEffect;
-=======
     private int hpEff;
     private int attEff;
     private int defEff;
@@ -37,7 +25,6 @@ public class StatusMove extends Move {
         this.spAttEff = spAttEff;
         this.spDefEff = spDefEff;
         this.spdEff =  spdEff;
->>>>>>> Stashed changes
     }
 
     // Getter

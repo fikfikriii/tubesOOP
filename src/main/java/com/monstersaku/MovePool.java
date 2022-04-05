@@ -29,4 +29,12 @@ public class MovePool {
             System.out.printf("%d %s%n", mo.getMoveID(), mo.getMoveName());
         }
     }
+
+    public void printMove(){
+        int i = 1;
+        for (Move m : listMove){
+            System.out.printf("%d %s%n", i, m.getMoveName());
+            i++;
+        }
+    }
 }

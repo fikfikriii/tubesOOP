@@ -4,6 +4,8 @@
     Fungsi: Menampung tipe-tipe monster sesuai config
 */
 
+package com.monstersaku;
+
 public enum ElementType {
     NORMAL,
     FIRE,

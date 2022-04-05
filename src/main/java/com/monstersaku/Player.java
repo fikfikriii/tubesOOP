@@ -20,6 +20,10 @@ public class Player {
     }
     
     // getter
+    public int getPlayerID(){
+        return this.id;
+    }
+    
     public MonsterPool getMonsterPool(){
         return this.monsters;
     }

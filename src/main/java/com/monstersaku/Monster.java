@@ -11,7 +11,6 @@ public class Monster {
     private boolean conditioned;
     private String condition;
     private Move currentMove;
-    private boolean isAlive;
 
     public Monster(){}
     
@@ -22,7 +21,6 @@ public class Monster {
         this.stats = stats;
         this.moves = moves;
         this.conditioned = false;
-        this.isAlive = true;
     }
     
     // getter

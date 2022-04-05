@@ -1,7 +1,5 @@
 package com.monstersaku;
 
-import javax.swing.event.SwingPropertyChangeSupport;
-
 public class Stats {
     private int HP;
     private int att;

@@ -1,7 +1,5 @@
 package com.monstersaku;
 
-import javax.lang.model.element.Element;
-
 public class Effectivity {
     private ElementType source;
     private ElementType target;

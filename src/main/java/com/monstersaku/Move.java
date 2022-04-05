@@ -9,7 +9,7 @@ package com.monstersaku;
 
 
 import java.util.List;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 public class Move {
     private int id;
@@ -51,7 +51,7 @@ public class Move {
     public int getMoveID(){
         return this.id;
     }
-    
+
     public String getMoveName() {
         return this.name;
     }

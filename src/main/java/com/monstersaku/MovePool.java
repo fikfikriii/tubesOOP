@@ -6,7 +6,7 @@ Selain itu, class ini juga bisa dipakai sebagai atributnya Monster karena dia bi
 package com.monstersaku;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
+//import java.util.Arrays;
 
 public class MovePool {
     private List<Move> listMove;

@@ -363,9 +363,14 @@ public class Game {
     // }
 
     // public int afterDamage(Monster monster) {
-
+    //     if (monster.getStatus().equals("BURN")) {
+    //         double damage = monster.getMaxHP() * 1/8;
+    //         return (int) damage;
+    //     } else if (monster.getStatus().equals("POISON")) {
+    //         double damage = monster.getMaxHP() * 1/16;
+    //         return (int) damage;
+    //     }
     // }
-
     
 
 }

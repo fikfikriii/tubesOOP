@@ -9,11 +9,28 @@ public class Monster {
     private Stats stats;
     private MovePool moves;
     private boolean conditioned;
-    private String condition;
+    private boolean burn;
+    private boolean poison;
+    private boolean sleep;
+    private boolean paralyze;
     private Move currentMove;
+    private boolean isAlive;
 
     public Monster(){}
     
+    public Monster(int id, String name, List<ElementType> elementType, Stats stats){
+        this.id = id;
+        this.name = name;
+        this.elementType = elementType;
+        this.stats = stats;
+        this.conditioned = false;
+        this.burn = false;
+        this.poison = false;
+        this.sleep = false;
+        this.paralyze = false;
+        this.isAlive = true;
+    }
+
     public Monster(int id, String name, List<ElementType> elementType, Stats stats, MovePool moves){
         this.id = id;
         this.name = name;
@@ -21,6 +38,10 @@ public class Monster {
         this.stats = stats;
         this.moves = moves;
         this.conditioned = false;
+        this.burn = false;
+        this.poison = false;
+        this.sleep = false;
+        this.paralyze = false;
     }
     
     // getter
@@ -43,8 +64,20 @@ public class Monster {
         return this.conditioned;
     }
 
-    public String condition(){
-        return this.condition;
+    public boolean isBurn(){
+        return this.burn;
+    }
+
+    public boolean isSleep(){
+        return this.sleep;
+    }
+
+    public boolean isPoison(){
+        return this.poison;
+    }
+
+    public boolean isParalyze(){
+        return this.paralyze;
     }
 
     public MovePool getMoves(){
@@ -55,9 +88,20 @@ public class Monster {
         return this.currentMove;
     }
 
+    public boolean getIsAlive(){
+        return this.isAlive;
+    }
     // setter
     public void addMonsterMove(Move m){
         (this.moves).addMove(m);
+    }
+
+    public void setMonsterMovePool(MovePool moves){
+        this.moves = moves;
+    }
+
+    public void setCurrentMove(Move m){
+        this.currentMove = m;
     }
 
     // other methods
@@ -71,19 +115,44 @@ public class Monster {
 
     public Move getMoveMonster(int x){
         Move m = new Move();
-        for (int i = 0; i <= moves.getListMove().size(); i++){
+        for (int i = 0; i < moves.getListMove().size(); i++){
             if (i==x-1){
                 m = (Move)moves.getListMove().get(i);
-                m.moved();
+                this.currentMove = m;
+                //this.getCurrentMove().moved();
+                //System.out.printf("The remaining %s ammunition is %d%n", m.getMoveName(), this.getMoves().getListMove().get(i).getMoveAmmunition());
                 break;
             }
         }
         return m;
     }
 
-    public float isBurn(){
-        if (this.conditioned && this.condition.equalsIgnoreCase("burn")){
-            return 0.5f;
+    public double burned(){
+        if (this.conditioned && this.sleep){
+            return 0.5;
         } else return 1;
+    }
+
+    public void takeDamage(int x){
+        System.out.printf("Enemy %s's current HP is %d%n", this.name, this.stats.getHP());
+        System.out.printf("Enemy %s takes %d damage%n", this.name, x);
+        if (x < this.stats.getHP()){
+            this.stats.setHP(this.stats.getHP() - x);
+            System.out.printf("Enemy %s's remaining HP is %d%n", this.name, this.stats.getHP());
+            System.out.println();
+        }
+        else {
+            System.out.printf("Enemy %s's remaining HP is 0%n", this.name);
+            System.out.printf("Enemy %s dead.%n", this.name);
+            this.isAlive = false;
+        }
+    }
+
+    public void printMove(){
+        int i = 1;
+        for (Move m : this.getMoves().getListMove()){
+            System.out.printf("%d %s (x%d)%n", i, m.getMoveName(), m.getMoveAmmunition());
+            i++;
+        }
     }
 }

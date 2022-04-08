@@ -12,9 +12,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.lang.Integer;
 import java.lang.Thread;
-import java.util.Random;
 
-public class Game {
+public class Game2 {
     private static final List<String> CSV_FILE_PATHS = Collections.unmodifiableList(Arrays.asList(
             "configs/movepool.csv",
             "configs/element-type-effectivity-chart.csv",
@@ -24,18 +23,17 @@ public class Game {
 
     Player player1 = new Player();
     Player player2 = new Player();
-
     MonsterPool mnstrPool = new MonsterPool();
-    MonsterPool mnstrPool2 = new MonsterPool();
-    
     MovePool mvPool = new MovePool();
     MovePool mvPool2 = new MovePool();
-
     EffectivityPool ePool = new EffectivityPool();
+    
+    MonsterPool player1MonsterPool;
+    MonsterPool player2MonsterPool;
 
     Scanner scanner = new Scanner(System.in);
 
-    public Game(){}
+    public Game2(){}
 
     public void playGame(){
         inputPlayer();
@@ -45,8 +43,7 @@ public class Game {
 
         // get 6 random monster for each player
         player1.setMonsterPool(6, mnstrPool);
-        player2.setMonsterPool(6, mnstrPool2);
-
+        player2.setMonsterPool(6, mnstrPool);
         System.out.printf("%s's monsters list: %n", player1.getPlayerName());
         player1.getMonsterPool().printMonster();
         System.out.println();
@@ -85,53 +82,36 @@ public class Game {
                     if(fileName.equals("configs/movepool.csv")){
                         // ini buat id
                         Integer id = Integer.parseInt(ls.get(0));
-                        Integer id2 = Integer.parseInt(ls.get(0));
                         
                         // ini buat type
                         String tipe = ls.get(1);
-                        String tipe2 = ls.get(1);
 
                         // ini buat nama
                         String name = ls.get(2);
-                        String name2 = ls.get(2);
 
                         // ini buat elementType
                         String se = ls.get(3);
-                        String se2 = ls.get(3);
                         ElementType elementType = ElementType.valueOf(se);
-                        ElementType elementType2 = ElementType.valueOf(se2);
                         
 
                         // ini buat acc, prior, amun
                         Integer accuracy = Integer.parseInt(ls.get(4));
-                        Integer accuracy2 = Integer.parseInt(ls.get(4));
-                        Integer priority= Integer.parseInt(ls.get(5));
-                        Integer priority2= Integer.parseInt(ls.get(5));
+                        Integer priority = Integer.parseInt(ls.get(5));
                         Integer ammunition = Integer.parseInt(ls.get(6));
-                        Integer ammunition2 = Integer.parseInt(ls.get(6));
 
                         String target = ls.get(7);
-                        String target2 = ls.get(7);
 
                         if (tipe.equals("NORMAL")){
                             Integer basepower = Integer.parseInt(ls.get(8));
-                            Integer basepower2 = Integer.parseInt(ls.get(8));
                             NormalMove n = new NormalMove(id, tipe, name, elementType, accuracy, priority, ammunition, target, basepower);
-                            NormalMove n2 = new NormalMove(id2, tipe2, name2, elementType2, accuracy2, priority2, ammunition2, target2, basepower2);
                             mvPool.addMove(n);
-                            mvPool2.addMove(n2);
                         } else if (tipe.equals("SPECIAL")){
                             Integer basepower = Integer.parseInt(ls.get(8));
-                            Integer basepower2 = Integer.parseInt(ls.get(8));
                             SpecialMove s = new SpecialMove(id, tipe, name, elementType, accuracy, priority, ammunition, target, basepower);
-                            SpecialMove s2 = new SpecialMove(id2, tipe2, name2, elementType2, accuracy2, priority2, ammunition2, target2, basepower2);
                             mvPool.addMove(s);
-                            mvPool2.addMove(s2);
                         } else if (tipe.equals("STATUS")){
                             String efek = ls.get(8);
-                            String efek2 = ls.get(8);
                             String num = ls.get(9);
-                            String num2 = ls.get(9);
                             String[] numEl = num.split(",");
                             List<String> listNum = Arrays.asList(numEl);
                             Integer HP = Integer.parseInt(listNum.get(0));
@@ -140,29 +120,20 @@ public class Game {
                             Integer spAtt = Integer.parseInt(listNum.get(3));
                             Integer spDef = Integer.parseInt(listNum.get(4));
                             Integer speed = Integer.parseInt(listNum.get(5));
-                            String[] numEl2 = num2.split(",");
-                            List<String> listNum2 = Arrays.asList(numEl2);
-                            Integer HP2 = Integer.parseInt(listNum2.get(0));
-                            Integer att2 = Integer.parseInt(listNum2.get(1));
-                            Integer def2 = Integer.parseInt(listNum2.get(2));
-                            Integer spAtt2 = Integer.parseInt(listNum2.get(3));
-                            Integer spDef2 = Integer.parseInt(listNum2.get(4));
-                            Integer speed2 = Integer.parseInt(listNum2.get(5));
                             StatusMove st = new StatusMove(id, tipe, name, elementType, accuracy, priority, ammunition, target, efek, HP, att, def, spAtt, spDef, speed);
-                            StatusMove st2 = new StatusMove(id2, tipe2, name2, elementType2, accuracy2, priority2, ammunition2, target2, efek2, HP2, att2, def2, spAtt2, spDef2, speed2);
                             mvPool.addMove(st);
-                            mvPool2.addMove(st2);
                         }
 
                     }
 
                     else if (fileName.equals("configs/element-type-effectivity-chart.csv")){
-                        ElementType source = ElementType.valueOf(ls.get(0));
+                        String s1 = ls.get(0);
+                        ElementType source = ElementType.valueOf(s1);
                         
-                        ElementType target = ElementType.valueOf(ls.get(1));
+                        String s2 = ls.get(1);
+                        ElementType target = ElementType.valueOf(s2);
 
-                        double effectivity = Double.parseDouble(ls.get(2));
-
+                        Double effectivity = Double.parseDouble(ls.get(2));
                         Effectivity e = new Effectivity(source, target, effectivity);
                         ePool.addEffectivity(e);
                     }
@@ -197,9 +168,60 @@ public class Game {
                         Integer spDef = Integer.parseInt(listNum.get(4));
                         Integer speed = Integer.parseInt(listNum.get(5));
                         Stats stats = new Stats(HP, att, def, spAtt, spDef, speed); // berhasil inisiasi stats
-                        Stats stats2 = new Stats(HP, att, def, spAtt, spDef, speed); // berhasil inisiasi stats
 
                         // ini buat moves
+                        CSVReader reader2 = new CSVReader(new File(BackupMain.class.getResource("configs/movepool.csv").toURI()), ";");
+                        reader.setSkipHeader(true);
+                        List<String[]> lines2 = reader.read();
+                        for (String[] line2 : lines2) {
+                            List<String> ls2 = new ArrayList<String>();
+                            for (String word : line2) {
+                                ls2.add(word);
+                            }
+                        }
+                        Integer id2 = Integer.parseInt(ls.get(0));
+                        
+                        // ini buat type
+                        String tipe = ls.get(1);
+
+                        // ini buat nama
+                        String name2 = ls.get(2);
+
+                        // ini buat elementType
+                        String se = ls.get(3);
+                        ElementType elementType = ElementType.valueOf(se);
+                        
+
+                        // ini buat acc, prior, amun
+                        Integer accuracy2 = Integer.parseInt(ls.get(4));
+                        Integer priority2 = Integer.parseInt(ls.get(5));
+                        Integer ammunition2 = Integer.parseInt(ls.get(6));
+
+                        String target = ls.get(7);
+
+                        if (tipe.equals("NORMAL")){
+                            Integer basepower = Integer.parseInt(ls.get(8));
+                            NormalMove n = new NormalMove(id2, tipe, name2, elementType, accuracy2, priority2, ammunition2, target, basepower);
+                            mvPool2.addMove(n);
+                        } else if (tipe.equals("SPECIAL")){
+                            Integer basepower = Integer.parseInt(ls.get(8));
+                            SpecialMove s = new SpecialMove(id2, tipe, name2, elementType, accuracy2, priority2, ammunition2, target, basepower);
+                            mvPool2.addMove(s);
+                        } else if (tipe.equals("STATUS")){
+                            String efek = ls.get(8);
+                            String num2 = ls.get(9);
+                            String[] numEl2 = num2.split(",");
+                            List<String> listNum2 = Arrays.asList(numEl2);
+                            Integer HP2 = Integer.parseInt(listNum2.get(0));
+                            Integer att2 = Integer.parseInt(listNum2.get(1));
+                            Integer def2 = Integer.parseInt(listNum2.get(2));
+                            Integer spAtt2 = Integer.parseInt(listNum2.get(3));
+                            Integer spDef2 = Integer.parseInt(listNum2.get(4));
+                            Integer speed2 = Integer.parseInt(listNum2.get(5));
+                            StatusMove st = new StatusMove(id2, tipe, name2, elementType, accuracy2, priority2, ammunition2, target, efek, HP2, att2, def2, spAtt2, spDef2, speed2);
+                            mvPool2.addMove(st);
+                        }
+
                         String monsterMove = ls.get(4);
                         String[] monsterMoveEl = monsterMove.split(",");
                         List<String> listMonsterMove = Arrays.asList(monsterMoveEl);
@@ -207,9 +229,7 @@ public class Game {
                         for (Move m : mvPool.getListMove()){
                             for (String moveID : listMonsterMove){
                                 if (m.getMoveID() == Integer.valueOf(moveID)){
-                                    Move l = new Move();
-                                    l = m;
-                                    monsterMovePool.getListMove().add(l);
+                                    monsterMovePool.addMove(m);
                                 }
                             }
                         }
@@ -218,23 +238,6 @@ public class Game {
                         Monster m = new Monster(id, name, elementTypes, stats);
                         m.setMonsterMovePool(monsterMovePool);
                         mnstrPool.addMonster(m);
-
-                        String monsterMove2 = ls.get(4);
-                        String[] monsterMoveEl2 = monsterMove2.split(",");
-                        List<String> listMonsterMove2 = Arrays.asList(monsterMoveEl2);
-                        MovePool monsterMovePool2 = new MovePool();
-                        for (Move m2 : mvPool2.getListMove()){
-                            for (String moveID : listMonsterMove2){
-                                if (m2.getMoveID() == Integer.valueOf(moveID)){
-                                    monsterMovePool2.addMove(m2);
-                                }
-                            }
-                        }
-                        
-                        // instansiasi
-                        Monster m2 = new Monster(id, name, elementTypes, stats2);
-                        m2.setMonsterMovePool(monsterMovePool2);
-                        mnstrPool2.addMonster(m2);
                     }
 
                 }
@@ -242,7 +245,6 @@ public class Game {
             } catch (Exception e) {
                 // do nothing
             }
-
         }
     }
 
@@ -262,7 +264,7 @@ public class Game {
         System.out.printf("Initializing Battle.");
         try {
             for(int n = 0; n< 10; n++) {
-             Thread.sleep(2);
+             Thread.sleep(200);
              System.out.printf(".");
             }
         } catch(InterruptedException e) {
@@ -286,7 +288,6 @@ public class Game {
     }
 
     public void switchMonster(Player p){
-        System.out.println();
         p.printCurrentMonster();
         System.out.printf("Monsters option for %s:%n", p.getPlayerName());
         p.switchOption();
@@ -350,14 +351,10 @@ public class Game {
                     moveOption(player2);
                     if (compareMonsterMove(player1.getCurrentMonster(), player2.getCurrentMonster()) == 1){
                         move(player1, player2);
-                        if (player2.getCurrentMonster().getIsAlive()){
-                            move(player2, player1);
-                        }
+                        move(player2, player1);
                     } else {
                         move(player2, player1);
-                        if (player1.getCurrentMonster().getIsAlive()){
-                            move(player1, player2);
-                        }
+                        move(player1, player2);
                     }
                 }
             }
@@ -374,30 +371,23 @@ public class Game {
 
     public void move(Player self, Player enemy){
         System.out.printf("%s's %s uses %s%n", self.getPlayerName(), self.getCurrentMonster().getMonsterName(), self.getCurrentMonster().getCurrentMove().getMoveName());
-        self.getCurrentMonster().getCurrentMove().moved();
-        System.out.printf("The remaining %s ammunition is %d%n", self.getCurrentMonster().getCurrentMove().getMoveName(), self.getCurrentMonster().getCurrentMove().getMoveAmmunition());
         int x = self.getCurrentMonster().getCurrentMove().totalDamage(self.getCurrentMonster(), enemy.getCurrentMonster(), ePool);
         enemy.getCurrentMonster().takeDamage(x);
-        if (!enemy.getCurrentMonster().getIsAlive()){
-            enemy.getMonsterPool().remove(enemy.getCurrentMonster());
-            System.out.printf("The remaining monster(s) for %s is: %n", enemy.getPlayerName());
-            enemy.getMonsterPool().printMonster();
-            System.out.printf("Enter monster selection [in integer]: ");
-            int y = scanner.nextInt();
-            enemy.getMonster(y);
-        }
         System.out.println();
     }
 
     public void moveOption(Player p){
         System.out.printf("Moves option for %s's %s:%n", p.getPlayerName(), p.getCurrentMonster().getMonsterName());
-        p.getCurrentMonster().printMove();
+        p.getCurrentMonster().printMove();;
         System.out.printf("Enter move selection [in integer]: ");
         int x = scanner.nextInt();
         Move m = p.getCurrentMonster().getMoveMonster(x);
-        System.out.println(m.getMoveAmmunition());
         p.getCurrentMonster().setCurrentMove(m);
         System.out.println();
+        // Move m = p.getCurrentMonster().getMoveMonster(x);
+        // return m
+        // p.getCurrentMonster().setCurrentMove(m);
+        // System.out.printf("%s's %s uses %s%n", p.getPlayerName(), p.getCurrentMonster().getMonsterName(), m.getMoveName());
     }
 
     public int compareMonsterMove(Monster m1, Monster m2){

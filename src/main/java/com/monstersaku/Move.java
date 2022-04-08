@@ -77,13 +77,17 @@ public class Move {
     }
 
     // setter
+    public void setAmmunition(int x){
+        this.ammunition = x;
+    }
+
     public void moved(){
         this.ammunition -= 1;
     }
 
     // other method
-    public float getEffectivity(EffectivityPool ep, Monster m){
-        float val = 0.0f;
+    public double getEffectivity(EffectivityPool ep, Monster m){
+        double val = 0.0;
         List<Effectivity> le = ep.getListEffecitivty();
         for (Effectivity e : le){
             if (this.elementType == e.getSource()){
@@ -101,10 +105,26 @@ public class Move {
 
     public int totalDamage(Monster self, Monster enemy, EffectivityPool ep){
         double damage = 0;
+        double random = 0.85 + Math.random() * (0.15);
         if (this.moveType.equalsIgnoreCase("normal")){
             NormalMove n = (NormalMove) this;
-            double random = 0.85 + Math.random() * (0.15);
-            damage = (n.getBasePower() * (self.getStats().getAtt() / enemy.getStats().getDef()) + 2) * random * getEffectivity(ep, enemy) * self.isBurn();
+            damage = (n.getBasePower() * (self.getStats().getAtt() / enemy.getStats().getDef()) + 2) * random * getEffectivity(ep, enemy) * self.burned();
+            System.out.println(damage);
+        } else if (this.moveType.equalsIgnoreCase("special")){
+            SpecialMove n = (SpecialMove) this;
+            damage = (n.getBasePower() * (self.getStats().getSpAtt() / enemy.getStats().getSpDef()) + 2) * random * getEffectivity(ep, enemy) * self.burned();
+        } else if (this.moveType.equalsIgnoreCase("default")){
+            damage = (50 * (self.getStats().getAtt() / enemy.getStats().getDef()) + 2) * random * getEffectivity(ep, enemy) * self.burned();
+        }
+        return (int) damage;
+    }
+
+    public int afterDamage(Monster monster) {
+        double damage = 0;
+        if (monster.isBurn()) {
+            damage = monster.getStats().getMaxHP() * 1/8;
+        } else if (monster.isPoison()) {
+            damage = monster.getStats().getMaxHP() * 1/16;
         }
         return (int) damage;
     }

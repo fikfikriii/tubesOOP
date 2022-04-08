@@ -120,5 +120,14 @@ public class Move {
         }
         return (int) damage;
     }
-
+    
+    public int afterDamage(Monster monster) {
+        double damage = 0;
+        if (monster.isBurn()) {
+            damage = monster.getStats().getMaxHP() * 1/8;
+        } else if (monster.isPoison()) {
+            damage = monster.getStats().getMaxHP() * 1/16;
+        }
+        return (int) damage;
+    }
 }

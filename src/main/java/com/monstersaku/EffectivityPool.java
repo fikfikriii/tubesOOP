@@ -24,9 +24,8 @@ public class EffectivityPool {
     }
 
     public void printeffectivityPool(){
-        System.out.println("---Ini adalah list effectivitys monstersaku---");
         for (Effectivity eff : listEffectivity){
-            eff.print();
+            System.out.println("Source: " + eff.getSource()+ "; Target: " + eff.getTarget()+ "; Effectivity: " + eff.getEffectivity());
         }
     }
 }

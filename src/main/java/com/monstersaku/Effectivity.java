@@ -3,9 +3,9 @@ package com.monstersaku;
 public class Effectivity {
     private ElementType source;
     private ElementType target;
-    private float effectivity;
+    private double effectivity;
 
-    public Effectivity(ElementType source, ElementType target, float effectivity){
+    public Effectivity(ElementType source, ElementType target, double effectivity){
         this.source = source;
         this.target = target;
         this.effectivity = effectivity;
@@ -20,7 +20,7 @@ public class Effectivity {
         return this.target;
     }
 
-    public float getEffectivity(){
+    public double getEffectivity(){
         return this.effectivity;
     }
 

@@ -106,8 +106,19 @@ public class Player {
         System.out.println();
     }
 
+    public void getMonster(int x){
+        Monster m = new Monster();
+        for (int i = 1; i <= monsters.getSize(); i++){
+            if (i==x){
+                m = (monsters.getListMonster()).get(i-1);
+            }
+        }
+        System.out.printf("%s sent out %s!%n", this.name, m.getMonsterName());
+        this.currentMonster = m;
+        System.out.println();
+    }
+
     public void printCurrentMonster(){
         System.out.printf("%s is currently using %s%n", this.getPlayerName(), this.getCurrentMonster().getMonsterName());
-        System.out.println();
     }
 }

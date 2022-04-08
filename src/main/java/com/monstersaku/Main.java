@@ -60,11 +60,11 @@ public class Main {
     public static void showMainScreenHelp(){
         System.out.println("MAIN SCREEN INSTRUCTIONS:");
         System.out.println("1. [Start / S / 1] = Play Game");
-        System.out.println("2. [Help / H / 2] = Show This Message");
+        System.out.println("2. [Help / H / 2] = Show Main Screen Instruction");
         System.out.println("3. [Exit / E / 3] = Exit The Game\n");
     }
 
     public static void wrongInputCommand(){
-        System.out.println("Wrong Input Command, read the instructions.");
+        System.out.println("Wrong Input Command. Please read the main screen instructions!");
     } 
 }

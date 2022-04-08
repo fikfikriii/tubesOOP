@@ -21,7 +21,7 @@ public class MovePool {
     }
 
     public void addMove(Move m){
-        (this.listMove).add(m);
+        getListMove().add(m);
     }
 
     public void printMovePool(){
@@ -30,11 +30,4 @@ public class MovePool {
         }
     }
 
-    public void printMove(){
-        int i = 1;
-        for (Move m : listMove){
-            System.out.printf("%d %s%n", i, m.getMoveName());
-            i++;
-        }
-    }
 }

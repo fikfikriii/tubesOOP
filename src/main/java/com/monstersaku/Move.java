@@ -106,11 +106,9 @@ public class Move {
     public int totalDamage(Monster self, Monster enemy, EffectivityPool ep){
         double damage = 0;
         double random = 0.85 + Math.random() * (0.15);
-        System.out.println("random " + random);
         if (this.moveType.equalsIgnoreCase("normal")){
             NormalMove n = (NormalMove) this;
             damage = (n.getBasePower() * (self.getStats().getAtt() / enemy.getStats().getDef()) + 2) * random * getEffectivity(ep, enemy) * self.burned();
-            System.out.println("eff " + getEffectivity(ep, enemy));
             System.out.println(damage);
         } else if (this.moveType.equalsIgnoreCase("special")){
             SpecialMove n = (SpecialMove) this;
@@ -120,7 +118,7 @@ public class Move {
         }
         return (int) damage;
     }
-    
+
     public int afterDamage(Monster monster) {
         double damage = 0;
         if (monster.isBurn()) {

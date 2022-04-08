@@ -62,6 +62,7 @@ public class Main {
         System.out.println("1. [Start / S / 1] = Play Game");
         System.out.println("2. [Help / H / 2] = Show Main Screen Instruction");
         System.out.println("3. [Exit / E / 3] = Exit The Game\n");
+        System.out.println("Tes");
     }
 
     public static void wrongInputCommand(){

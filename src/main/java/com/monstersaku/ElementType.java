@@ -8,7 +8,7 @@ package com.monstersaku;
 
 public enum ElementType {
     NORMAL,
-    FIGHTTING,
+    FIGHTING,
     FLYING,
     POISON,
     GROUND,

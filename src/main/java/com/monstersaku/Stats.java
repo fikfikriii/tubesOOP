@@ -1,6 +1,7 @@
 package com.monstersaku;
 
 public class Stats {
+    private int maxHP;
     private int HP;
     private int att;
     private int def;
@@ -9,6 +10,7 @@ public class Stats {
     private int speed;
 
     public Stats(int HP, int att, int def, int spAtt, int spDef, int speed){
+        this.maxHP = HP;
         this.HP = HP;
         this.att = att;
         this.def = def;
@@ -18,6 +20,10 @@ public class Stats {
     }
 
     // getter
+    public int getMaxHP(){
+        return this.maxHP;
+    }
+
     public int getHP(){
         return this.HP;
     }
@@ -30,11 +36,11 @@ public class Stats {
         return this.def;
     }
 
-    public int getSpAttack(){
+    public int getSpAtt(){
         return this.spAtt;
     }
 
-    public int getSpDefense(){
+    public int getSpDef(){
         return this.spDef;
     }
 
@@ -43,8 +49,11 @@ public class Stats {
     }
 
     // setter
-    
+    public void setHP(int x){
+        this.HP = x;
+    }
+
     public void tes(){
-        System.out.println("berhasil inisiasi");
+        System.out.println("Berhasil inisiasi");
     }
 }

@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.lang.Integer;
 import java.lang.Thread;
-import java.util.Random;
 
 public class Game {
     private static final List<String> CSV_FILE_PATHS = Collections.unmodifiableList(Arrays.asList(
@@ -157,13 +156,12 @@ public class Game {
                     }
 
                     else if (fileName.equals("configs/element-type-effectivity-chart.csv")){
-                        String s1 = ls.get(0);
-                        ElementType source = ElementType.valueOf(s1);
+                        ElementType source = ElementType.valueOf(ls.get(0));
                         
-                        String s2 = ls.get(1);
-                        ElementType target = ElementType.valueOf(s2);
+                        ElementType target = ElementType.valueOf(ls.get(1));
 
-                        Float effectivity = Float.parseFloat(ls.get(2));
+                        double effectivity = Double.parseDouble(ls.get(2));
+
                         Effectivity e = new Effectivity(source, target, effectivity);
                         ePool.addEffectivity(e);
                     }
@@ -243,6 +241,7 @@ public class Game {
             } catch (Exception e) {
                 // do nothing
             }
+
         }
     }
 
@@ -286,6 +285,7 @@ public class Game {
     }
 
     public void switchMonster(Player p){
+        System.out.println();
         p.printCurrentMonster();
         System.out.printf("Monsters option for %s:%n", p.getPlayerName());
         p.switchOption();
@@ -349,10 +349,14 @@ public class Game {
                     moveOption(player2);
                     if (compareMonsterMove(player1.getCurrentMonster(), player2.getCurrentMonster()) == 1){
                         move(player1, player2);
-                        move(player2, player1);
+                        if (player2.getCurrentMonster().getIsAlive()){
+                            move(player2, player1);
+                        }
                     } else {
                         move(player2, player1);
-                        move(player1, player2);
+                        if (player1.getCurrentMonster().getIsAlive()){
+                            move(player1, player2);
+                        }
                     }
                 }
             }
@@ -377,6 +381,9 @@ public class Game {
             enemy.getMonsterPool().remove(enemy.getCurrentMonster());
             System.out.printf("The remaining monster(s) for %s is: %n", enemy.getPlayerName());
             enemy.getMonsterPool().printMonster();
+            System.out.printf("Enter monster selection [in integer]: ");
+            int y = scanner.nextInt();
+            enemy.getMonster(y);
         }
         System.out.println();
     }

@@ -135,15 +135,15 @@ public class Monster {
 
     public void takeDamage(int x){
         System.out.printf("Enemy %s's current HP is %d%n", this.name, this.stats.getHP());
-        System.out.printf("%s takes %d damage%n", this.name, x);
+        System.out.printf("Enemy %s takes %d damage%n", this.name, x);
         if (x < this.stats.getHP()){
             this.stats.setHP(this.stats.getHP() - x);
-            System.out.printf("%s's remaining HP is %d%n", this.name, this.stats.getHP());
+            System.out.printf("Enemy %s's remaining HP is %d%n", this.name, this.stats.getHP());
             System.out.println();
         }
         else {
-            System.out.printf("%s's remaining HP is 0%n", this.name);
-            System.out.println(this.name + " dead.");
+            System.out.printf("Enemy %s's remaining HP is 0%n", this.name);
+            System.out.printf("Enemy %s dead.%n", this.name);
             this.isAlive = false;
         }
     }

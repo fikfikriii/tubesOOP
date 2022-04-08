@@ -133,7 +133,7 @@ public class Game2 {
                         String s2 = ls.get(1);
                         ElementType target = ElementType.valueOf(s2);
 
-                        Float effectivity = Float.parseFloat(ls.get(2));
+                        Double effectivity = Double.parseDouble(ls.get(2));
                         Effectivity e = new Effectivity(source, target, effectivity);
                         ePool.addEffectivity(e);
                     }

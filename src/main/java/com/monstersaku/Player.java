@@ -45,10 +45,14 @@ public class Player {
         this.name = name;
     }
 
+    public void setAllMonster(MonsterPool mp){
+        this.monsters = mp;
+    }
+
     public void setMonsterPool(int i, MonsterPool listMonster){
         try {
             System.out.println("Getting random monster for " + this.name + " ....");
-            Thread.sleep(3000);
+            //Thread.sleep(3000);
             List<Monster> copyMonsterPool = listMonster.getListMonster();
             List<Monster> copyList = new ArrayList<Monster>(copyMonsterPool);
             List<Monster> randomized = new ArrayList<Monster>();
@@ -68,11 +72,10 @@ public class Player {
     }
 
     // print player monster pool
-
     public void randomMonster(){
         try {
             System.out.println(this.name + " choosing monster....");
-            Thread.sleep(1500);
+            Thread.sleep(10);
             int index = new Random().nextInt(monsters.getSize());
             currentMonster = (monsters.getListMonster()).get(index);
         } catch(InterruptedException e) {
@@ -98,13 +101,24 @@ public class Player {
             }
         }
         this.switchingOption.addMonster(this.getCurrentMonster());
-        System.out.printf("Berhasil mengganti monster menjadi %s%n", m.getMonsterName());
+        System.out.printf("Successfully changed monster to %s%n", m.getMonsterName());
+        this.currentMonster = m;
+        System.out.println();
+    }
+
+    public void getMonster(int x){
+        Monster m = new Monster();
+        for (int i = 1; i <= monsters.getSize(); i++){
+            if (i==x){
+                m = (monsters.getListMonster()).get(i-1);
+            }
+        }
+        System.out.printf("%s sent out %s!%n", this.name, m.getMonsterName());
         this.currentMonster = m;
         System.out.println();
     }
 
     public void printCurrentMonster(){
-        System.out.printf("Saat ini %s sedang menggunakan %s%n", this.getPlayerName(), this.getCurrentMonster().getMonsterName());
-        System.out.println();
+        System.out.printf("%s is currently using %s%n", this.getPlayerName(), this.getCurrentMonster().getMonsterName());
     }
 }

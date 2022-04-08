@@ -1,8 +1,8 @@
 package com.monstersaku;
 
 public class Stats {
-    private int maxHP;
     private int HP;
+    private int maxHP;
     private int att;
     private int def;
     private int spAtt;
@@ -19,9 +19,13 @@ public class Stats {
         this.speed = speed;
     }
 
-    // getter
+    // Getter & Setter
     public int getMaxHP(){
         return this.maxHP;
+    }
+
+    public void setMaxHP(int maxHP){
+        this.maxHP = maxHP;
     }
 
     public int getHP(){
@@ -32,23 +36,43 @@ public class Stats {
         return this.att;
     }
 
+    public void setAtt(int att){
+        this.att = att;
+    }
+
     public int getDef(){
         return this.def;
+    }
+
+    public void setDef(int def){
+        this.def = def;
     }
 
     public int getSpAtt(){
         return this.spAtt;
     }
 
+    public void setSpAtt(int spAtt){
+        this.spAtt = spAtt;
+    }
+
     public int getSpDef(){
         return this.spDef;
+    }
+
+    public void setSpDef(int spDef){
+        this.spDef = spDef;
     }
 
     public int getSpeed(){
         return this.speed;
     }
+    
+    public void setSpeed(int speed){
+        this.speed = speed;
+    }
 
-    // setter
+    // Setter untuk Health Point
     public void setHP(int x){
         this.HP = x;
     }

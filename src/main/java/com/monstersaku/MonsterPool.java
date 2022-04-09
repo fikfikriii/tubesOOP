@@ -39,6 +39,13 @@ public class MonsterPool {
         }
     }
 
+    public void printWithMove(){
+        for (Monster m : listMonster){
+            System.out.printf("%d %s%n", m.getMonsterID(), m.getMonsterName());
+            m.printMove();
+        }
+    }
+
     public void remove(Monster m){
         this.listMonster.remove(m);
     }

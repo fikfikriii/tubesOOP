@@ -9,7 +9,7 @@ public class StatusCondition extends Stats{
     private boolean isParalyze = false;
 
     public StatusCondition(int HP, int maxHP, int att, int def, int spAtt, int spDeff, int speed){
-        super(HP, maxHP, att, def, spAtt, spDeff, speed);
+        super(HP, att, def, spAtt, spDeff, speed);
         this.isBurn = false;
         this.isPoison = false;
         this.isSleep = false;
@@ -31,16 +31,13 @@ public class StatusCondition extends Stats{
     
     // Counting
     public int burned(){
-        return (Integer.valueOf(Math.floor((super.getmaxHP() / 8))));
+        return super.getMaxHP() / 8;
     }
 
     public int poisoned(){
-        return (Integer.valueOf(Math.floor((super.getmaxHP() / 16))));
+        return super.getMaxHP() / 16;
     }
 
-    public int slept(){
-        return Random.nextInt(sleep);
-    }
     public int paralyzed(){
         return (super.getSpeed() / 2);
     }

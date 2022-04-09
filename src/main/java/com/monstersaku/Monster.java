@@ -15,6 +15,7 @@ public class Monster {
     private boolean paralyze;
     private Move currentMove;
     private boolean isAlive;
+    private int sleepLength;
 
     public Monster(){}
     
@@ -29,6 +30,7 @@ public class Monster {
         this.sleep = false;
         this.paralyze = false;
         this.isAlive = true;
+        this.sleepLength = 0;
     }
 
     public Monster(int id, String name, List<ElementType> elementType, Stats stats, MovePool moves){
@@ -119,8 +121,6 @@ public class Monster {
             if (i==x-1){
                 m = (Move)moves.getListMove().get(i);
                 this.currentMove = m;
-                //this.getCurrentMove().moved();
-                //System.out.printf("The remaining %s ammunition is %d%n", m.getMoveName(), this.getMoves().getListMove().get(i).getMoveAmmunition());
                 break;
             }
         }
@@ -144,7 +144,41 @@ public class Monster {
         else {
             System.out.printf("Enemy %s's remaining HP is 0%n", this.name);
             System.out.printf("Enemy %s dead.%n", this.name);
+            System.out.println();
             this.isAlive = false;
+        }
+    }
+
+    public void setCondition(StatusMove move){
+        if (this.conditioned){
+            System.out.printf("%s is already conditioned.%n", this.name);
+        } else {
+            switch (move.getStatusEffect()) {
+                case "BURN": 
+                    System.out.printf("%s was burned.%n", this.name);
+                    this.burn = true;
+                    this.conditioned = true;
+                    break;
+                case "POISON": 
+                    System.out.printf("%s was poisoned.%n", this.name);
+                    this.poison = true;
+                    this.poison = true;
+                    break;
+                case "PARALYZE":
+                    System.out.printf("%s was paralyzed.%n", this.name);
+                    this.paralyze = true;
+                    this.conditioned = true;
+                    break;
+                case "SLEEP":
+                    double test = Math.random() * 7;
+                    int sleepLength = (int) test;
+                    this.sleepLength = sleepLength;
+                    System.out.printf("%s was slept for %d turn.%n", this.name, this.sleepLength);
+                    this.sleep = true;
+                    this.conditioned = true;
+                default:
+                    break;
+            }
         }
     }
 
@@ -154,5 +188,18 @@ public class Monster {
             System.out.printf("%d %s (x%d)%n", i, m.getMoveName(), m.getMoveAmmunition());
             i++;
         }
+    }
+
+    public void printInfo(){
+        System.out.println("--- STATS ---");
+        System.out.println("Max HP: " + this.getStats().getMaxHP());
+        System.out.println("HP: " + this.getStats().getHP());
+        System.out.println("Attack Power: " + this.getStats().getAtt());
+        System.out.println("Special Attack Power: " + this.getStats().getSpAtt());
+        System.out.println("Defence Power: " + this.getStats().getDef());
+        System.out.println("Special Defence Power: " + this.getStats().getSpDef());
+        System.out.println("Speed: " + this.getStats().getSpeed());
+        System.out.println("--- MOVES ---");
+        this.printMove();  
     }
 }

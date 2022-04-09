@@ -108,13 +108,12 @@ public class Move {
         double random = 0.85 + Math.random() * (0.15);
         if (this.moveType.equalsIgnoreCase("normal")){
             NormalMove n = (NormalMove) this;
-            damage = (n.getBasePower() * (self.getStats().getAtt() / enemy.getStats().getDef()) + 2) * random * getEffectivity(ep, enemy) * self.burned();
-            System.out.println(damage);
+            damage = ((double)n.getBasePower() * ((double)self.getStats().getAtt() / (double)enemy.getStats().getDef()) + 2) * random * getEffectivity(ep, enemy) * self.burned();
         } else if (this.moveType.equalsIgnoreCase("special")){
             SpecialMove n = (SpecialMove) this;
-            damage = (n.getBasePower() * (self.getStats().getSpAtt() / enemy.getStats().getSpDef()) + 2) * random * getEffectivity(ep, enemy) * self.burned();
+            damage = ((double)n.getBasePower() * ((double)self.getStats().getSpAtt() / (double)enemy.getStats().getSpDef()) + 2) * random * getEffectivity(ep, enemy) * self.burned();
         } else if (this.moveType.equalsIgnoreCase("default")){
-            damage = (50 * (self.getStats().getAtt() / enemy.getStats().getDef()) + 2) * random * getEffectivity(ep, enemy) * self.burned();
+            damage = (50.0 * ((double)self.getStats().getAtt() / (double)enemy.getStats().getDef()) + 2) * random * getEffectivity(ep, enemy) * self.burned();
         }
         return (int) damage;
     }

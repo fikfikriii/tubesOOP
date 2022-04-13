@@ -1,6 +1,7 @@
 package com.monstersaku;
 
 import java.util.List;
+import java.util.Random;
 
 public class Monster {
     private int id;
@@ -149,23 +150,86 @@ public class Monster {
         }
     }
 
+    public int afterDamage() {
+        double damage = 0;
+        if (this.isBurn()) {
+            damage = this.getStats().getMaxHP() * 1/8;
+        } else if (this.isPoison()) {
+            damage = this.getStats().getMaxHP() * 1/16;
+        }
+        return (int) damage;
+    }
+
+    public void moveStatus(){
+        System.out.println();
+        
+        StatusMove s = (StatusMove) this.getCurrentMove();
+        
+        System.out.printf("~~~ Stats change for enemy's %s ~~~%n", this.name);
+
+        // HP
+        System.out.printf("HP before move: %d%n", this.getStats().getHP());
+        int hp = (int)(s.getHPEff() * this.getStats().getMaxHP() / 100);
+        if (this.getStats().getHP() + hp < this.getStats().getMaxHP()){
+            this.getStats().setHP(hp + this.getStats().getHP());
+        } else {
+            this.getStats().setHP(this.getStats().getMaxHP());
+        }
+        System.out.printf("HP after move: %d%n", this.getStats().getHP());
+        
+        // Att
+        System.out.printf("Attack before move: %d%n", this.getStats().getAtt());
+        int att = (int)(this.getStats().getAtt() * s.getFactor(s.getAttEff()));
+        this.getStats().setAtt(att);
+        System.out.printf("Attack after move: %d%n", this.getStats().getAtt());
+        
+        // Def
+        System.out.printf("Defense before move: %d%n", this.getStats().getDef());
+        int def = (int)(this.getStats().getDef() * s.getFactor(s.getDefEff()));
+        this.getStats().setDef(def);
+        System.out.printf("Defense after move: %d%n", this.getStats().getDef());
+        
+        // Sp Att
+        System.out.printf("Special attack before move: %d%n", this.getStats().getSpAtt());
+        int spAtt = (int)(this.getStats().getSpAtt() * s.getFactor(s.getSpAttEff()));
+        this.getStats().setSpAtt(spAtt);
+        System.out.printf("Special attack after move: %d%n", this.getStats().getSpAtt());
+        
+        // Sp Def
+        System.out.printf("Special defence before move: %d%n", this.getStats().getSpDef());
+        int spDef = (int)(this.getStats().getSpDef() * s.getFactor(s.getSpDefEff()));
+        this.getStats().setSpDef(spDef);
+        System.out.printf("Special defence after move: %d%n", this.getStats().getSpDef());
+       
+    }
+
     public void setCondition(StatusMove move){
         if (this.conditioned){
             System.out.printf("%s is already conditioned.%n", this.name);
+            System.out.println();
         } else {
             switch (move.getStatusEffect()) {
                 case "BURN": 
-                    System.out.printf("%s was burned.%n", this.name);
+                    System.out.printf("Enemy %s was burned.%n", this.name);
                     this.burn = true;
                     this.conditioned = true;
                     break;
                 case "POISON": 
-                    System.out.printf("%s was poisoned.%n", this.name);
+                    System.out.printf("Enemy %s was poisoned.%n", this.name);
                     this.poison = true;
-                    this.poison = true;
+                    this.conditioned = true;
                     break;
                 case "PARALYZE":
-                    System.out.printf("%s was paralyzed.%n", this.name);
+                    System.out.printf("Enemy %s was paralyzed.%n", this.name);
+                    System.out.printf("Speed before paralyzed: %d%n", this.getStats().getSpeed());
+                    this.getStats().setSpeed((int)this.getStats().getSpeed()/2);
+                    System.out.printf("Speed after paralyzed: %d%n", this.getStats().getSpeed());
+                    int val = new Random().nextInt(4);
+                    if (val == 0){
+                        System.out.printf("Enemy %s cannot move for 1 turn%n ", this.name);
+                        this.sleep = true;
+                        this.sleepLength = 1;
+                    }
                     this.paralyze = true;
                     this.conditioned = true;
                     break;
@@ -173,12 +237,13 @@ public class Monster {
                     double test = Math.random() * 7;
                     int sleepLength = (int) test;
                     this.sleepLength = sleepLength;
-                    System.out.printf("%s was slept for %d turn.%n", this.name, this.sleepLength);
+                    System.out.printf("Enemy %s was slept for %d turn.%n", this.name, this.sleepLength);
                     this.sleep = true;
                     this.conditioned = true;
                 default:
                     break;
             }
+            System.out.println();
         }
     }
 
@@ -188,6 +253,20 @@ public class Monster {
             System.out.printf("%d %s (x%d)%n", i, m.getMoveName(), m.getMoveAmmunition());
             i++;
         }
+    }
+
+    public void removeMove(Move m){
+        this.getMoves().getListMove().remove(m);
+    }
+
+    public void aftersleep(){
+        this.sleepLength -= 1;
+        System.out.printf("The remaining sleep length for %s is %d%n", this.name, this.sleepLength);
+        if (this.sleepLength == 0){
+            this.sleep = false;
+            this.conditioned = false;
+        }
+        System.out.println();
     }
 
     public void printInfo(){

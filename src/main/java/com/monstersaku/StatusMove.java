@@ -32,6 +32,30 @@ public class StatusMove extends Move {
         return this.statusEffect;
     }
 
+    public int getHPEff(){
+        return this.hpEff;
+    }
+
+    public int getAttEff(){
+        return this.attEff;
+    }
+
+    public int getDefEff(){
+        return this.defEff;
+    }
+
+    public int getSpAttEff(){
+        return this.spAttEff;
+    }
+
+    public int getSpDefEff(){
+        return this.spDefEff;
+    }
+
+    public int getSpdEff(){
+        return this.spdEff;
+    }
+
     // Other methods
     public void print(){
         super.print();

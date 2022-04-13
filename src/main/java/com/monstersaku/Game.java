@@ -111,7 +111,7 @@ public class Game implements Instruction{
         System.out.printf("Initializing Battle.");
         try {
             for(int n = 0; n< 10; n++) {
-             Thread.sleep(2);
+             Thread.sleep(200);
              System.out.printf(".");
             }
         } catch(InterruptedException e) {
@@ -122,6 +122,7 @@ public class Game implements Instruction{
     }
 
     public void wrongInputCommand(){
+        System.out.println();
         System.out.println("Invalid command. Please read the instruction!");
     }
 
@@ -159,7 +160,7 @@ public class Game implements Instruction{
             turn -= 1;
         } else if(command1.equalsIgnoreCase("exit")){
             exit();
-        } else {
+        } else if (command1.equalsIgnoreCase("move") || command1.equalsIgnoreCase("switch")){
             System.out.printf("Enter %s's command: ", player2.getPlayerName());
             String command2 = scanner.next();
             System.out.println();
@@ -180,14 +181,16 @@ public class Game implements Instruction{
                     else if (command2.equalsIgnoreCase("move")){
                         if (player2.getCurrentMonster().conditioned() && player2.getCurrentMonster().isSleep()){
                             System.out.printf("%s's %s cannot move!%n", player2.getPlayerName(), player2.getCurrentMonster().getMonsterName());
+                            player2.getCurrentMonster().aftersleep();
                         } else {
                             moveOption(player2);
                             move(player2, player1);
                             if (!player1.getCurrentMonster().getIsAlive()){
                                 player1.getMonsterPool().remove(player1.getCurrentMonster());
-                                System.out.printf("The remaining monster(s) for %s is: %n", player1.getPlayerName());
-                                player1.getMonsterPool().printMonster();
+                                player1.setCurrentMonster(null);
                                 if (!player1.getMonsterPool().getListMonster().isEmpty()){
+                                    System.out.printf("The remaining monster(s) for %s is: %n", player1.getPlayerName());
+                                    player1.getMonsterPool().printMonster();
                                     System.out.printf("Enter monster selection [in integer]: ");
                                     int y = scanner.nextInt();
                                     player1.getMonster(y);
@@ -214,32 +217,62 @@ public class Game implements Instruction{
                     switchMonster(player2);
                     if (player1.getCurrentMonster().isSleep()){
                         System.out.printf("%s's %s cannot move!%n", player1.getPlayerName(), player1.getCurrentMonster().getMonsterName());
+                        player1.getCurrentMonster().aftersleep();
                     } else {
                         moveOption(player1);
                         move(player1, player2);
                         if (!player2.getCurrentMonster().getIsAlive()){
                             player2.getMonsterPool().remove(player2.getCurrentMonster());
-                            System.out.printf("The remaining monster(s) for %s is: %n", player2.getPlayerName());
-                            player2.getMonsterPool().printMonster();
-                            System.out.printf("Enter monster selection [in integer]: ");
-                            int y = scanner.nextInt();
-                            player2.getMonster(y);
+                            player2.setCurrentMonster(null);
+                            if (!player2.getMonsterPool().getListMonster().isEmpty()){
+                                System.out.printf("The remaining monster(s) for %s is: %n", player2.getPlayerName());
+                                player2.getMonsterPool().printMonster();
+                                System.out.printf("Enter monster selection [in integer]: ");
+                                int y = scanner.nextInt();
+                                player2.getMonster(y);
+                            }
                         }
                     }
                 } else if (command2.equalsIgnoreCase("move")){
                     if (player1.getCurrentMonster().isSleep() && player2.getCurrentMonster().isSleep()){
                         System.out.printf("%s's %s cannot move!%n", player1.getPlayerName(), player1.getCurrentMonster().getMonsterName());
+                        player1.getCurrentMonster().aftersleep();
                         System.out.printf("%s's %s cannot move!%n", player2.getPlayerName(), player2.getCurrentMonster().getMonsterName());
+                        player2.getCurrentMonster().aftersleep();
                     }
                     else if (player1.getCurrentMonster().isSleep() && !player2.getCurrentMonster().isSleep()){
                         System.out.printf("%s's %s cannot move!%n", player1.getPlayerName(), player1.getCurrentMonster().getMonsterName());
+                        player1.getCurrentMonster().aftersleep();
                         moveOption(player2);
                         move(player2, player1);
+                        if (!player1.getCurrentMonster().getIsAlive()){
+                            player1.getMonsterPool().remove(player1.getCurrentMonster());
+                            player1.setCurrentMonster(null);
+                            if (!player1.getMonsterPool().getListMonster().isEmpty()){
+                                System.out.printf("The remaining monster(s) for %s is: %n", player1.getPlayerName());
+                                player1.getMonsterPool().printMonster();
+                                System.out.printf("Enter monster selection [in integer]: ");
+                                int y = scanner.nextInt();
+                                player1.getMonster(y);
+                            }
+                        }
                     }
                     else if (!player1.getCurrentMonster().isSleep() && player2.getCurrentMonster().isSleep()){
                         System.out.printf("%s's %s cannot move!%n", player2.getPlayerName(), player2.getCurrentMonster().getMonsterName());
+                        player2.getCurrentMonster().aftersleep();
                         moveOption(player1);
                         move(player1, player2);
+                        if (!player2.getCurrentMonster().getIsAlive()){
+                            player2.getMonsterPool().remove(player2.getCurrentMonster());
+                            player2.setCurrentMonster(null);
+                            if (!player2.getMonsterPool().getListMonster().isEmpty()){
+                                System.out.printf("The remaining monster(s) for %s is: %n", player2.getPlayerName());
+                                player2.getMonsterPool().printMonster();
+                                System.out.printf("Enter monster selection [in integer]: ");
+                                int y = scanner.nextInt();
+                                player2.getMonster(y);
+                            }
+                        }
                     }
                     else {
                         moveOption(player1);
@@ -248,20 +281,26 @@ public class Game implements Instruction{
                             move(player1, player2);
                             if (!player2.getCurrentMonster().getIsAlive()){
                                 player2.getMonsterPool().remove(player2.getCurrentMonster());
-                                System.out.printf("The remaining monster(s) for %s is: %n", player2.getPlayerName());
-                                player2.getMonsterPool().printMonster();
-                                System.out.printf("Enter monster selection [in integer]: ");
-                                int y = scanner.nextInt();
-                                player2.getMonster(y);
+                                player2.setCurrentMonster(null);
+                                if (!player2.getMonsterPool().getListMonster().isEmpty()){
+                                    System.out.printf("The remaining monster(s) for %s is: %n", player2.getPlayerName());
+                                    player2.getMonsterPool().printMonster();
+                                    System.out.printf("Enter monster selection [in integer]: ");
+                                    int y = scanner.nextInt();
+                                    player2.getMonster(y);
+                                }
                             } else {
                                 move(player2, player1);
                                 if (!player1.getCurrentMonster().getIsAlive()){
                                     player1.getMonsterPool().remove(player1.getCurrentMonster());
-                                    System.out.printf("The remaining monster(s) for %s is: %n", player1.getPlayerName());
-                                    player1.getMonsterPool().printMonster();
-                                    System.out.printf("Enter monster selection [in integer]: ");
-                                    int y = scanner.nextInt();
-                                    player1.getMonster(y);
+                                    player1.setCurrentMonster(null);
+                                    if (!player1.getMonsterPool().getListMonster().isEmpty()){
+                                        System.out.printf("The remaining monster(s) for %s is: %n", player1.getPlayerName());
+                                        player1.getMonsterPool().printMonster();
+                                        System.out.printf("Enter monster selection [in integer]: ");
+                                        int y = scanner.nextInt();
+                                        player1.getMonster(y);
+                                    }
                                 }
                             }
 
@@ -269,20 +308,26 @@ public class Game implements Instruction{
                             move(player2, player1);
                             if (!player1.getCurrentMonster().getIsAlive()){
                                 player1.getMonsterPool().remove(player1.getCurrentMonster());
-                                System.out.printf("The remaining monster(s) for %s is: %n", player1.getPlayerName());
-                                player1.getMonsterPool().printMonster();
-                                System.out.printf("Enter monster selection [in integer]: ");
-                                int y = scanner.nextInt();
-                                player1.getMonster(y);
+                                player1.setCurrentMonster(null);
+                                if (!player1.getMonsterPool().getListMonster().isEmpty()){
+                                    System.out.printf("The remaining monster(s) for %s is: %n", player1.getPlayerName());
+                                    player1.getMonsterPool().printMonster();
+                                    System.out.printf("Enter monster selection [in integer]: ");
+                                    int y = scanner.nextInt();
+                                    player1.getMonster(y);
+                                }
                             } else {
                                 move(player1, player2);
                                 if (!player2.getCurrentMonster().getIsAlive()){
                                     player2.getMonsterPool().remove(player2.getCurrentMonster());
-                                    System.out.printf("The remaining monster(s) for %s is: %n", player2.getPlayerName());
-                                    player2.getMonsterPool().printMonster();
-                                    System.out.printf("Enter monster selection [in integer]: ");
-                                    int y = scanner.nextInt();
-                                    player2.getMonster(y);
+                                    player2.setCurrentMonster(null);
+                                    if (!player2.getMonsterPool().getListMonster().isEmpty()){
+                                        System.out.printf("The remaining monster(s) for %s is: %n", player2.getPlayerName());
+                                        player2.getMonsterPool().printMonster();
+                                        System.out.printf("Enter monster selection [in integer]: ");
+                                        int y = scanner.nextInt();
+                                        player2.getMonster(y);
+                                    }
                                 }
                             }
                         }
@@ -292,9 +337,10 @@ public class Game implements Instruction{
                 }
             }
     
-            else {
-                wrongInputCommand();
-            }
+            
+        }
+        else {
+            wrongInputCommand();
         }
 
     }
@@ -303,8 +349,39 @@ public class Game implements Instruction{
         System.out.printf("%s's %s uses %s%n", self.getPlayerName(), self.getCurrentMonster().getMonsterName(), self.getCurrentMonster().getCurrentMove().getMoveName());
         self.getCurrentMonster().getCurrentMove().moved();
         System.out.printf("The remaining %s ammunition is %d%n", self.getCurrentMonster().getCurrentMove().getMoveName(), self.getCurrentMonster().getCurrentMove().getMoveAmmunition());
-        int x = self.getCurrentMonster().getCurrentMove().totalDamage(self.getCurrentMonster(), enemy.getCurrentMonster(), ePool);
-        enemy.getCurrentMonster().takeDamage(x);
+        if (self.getCurrentMonster().getCurrentMove() instanceof StatusMove){
+            StatusMove s = (StatusMove) self.getCurrentMonster().getCurrentMove();
+            if (s.getTarget().equalsIgnoreCase("own")){
+                self.getCurrentMonster().setCondition(s);
+                self.getCurrentMonster().moveStatus();
+            } else {
+                enemy.getCurrentMonster().setCondition(s);
+                enemy.getCurrentMonster().moveStatus();
+                if (enemy.getCurrentMonster().conditioned()){
+                    if (enemy.getCurrentMonster().isBurn()){
+                        System.out.printf("Enemy %s was hurt by its burn%n", enemy.getCurrentMonster().getMonsterName());
+                        enemy.getCurrentMonster().takeDamage(enemy.getCurrentMonster().afterDamage());
+                    } else if (enemy.getCurrentMonster().isPoison()){
+                        System.out.printf("Enemy %s was hurt by its poison%n", enemy.getCurrentMonster().getMonsterName());
+                    }
+                }
+            }
+        } else {
+            int x = self.getCurrentMonster().getCurrentMove().totalDamage(self.getCurrentMonster(), enemy.getCurrentMonster(), ePool);
+            enemy.getCurrentMonster().takeDamage(x);
+            if (enemy.getCurrentMonster().conditioned()){
+                if (enemy.getCurrentMonster().isBurn()){
+                    System.out.printf("Enemy %s was hurt by its burn%n", enemy.getCurrentMonster().getMonsterName());
+                } else if (enemy.getCurrentMonster().isPoison()){
+                    System.out.printf("Enemy %s was hurt by its poison%n", enemy.getCurrentMonster().getMonsterName());
+                }
+                enemy.getCurrentMonster().takeDamage(enemy.getCurrentMonster().afterDamage());
+            }
+        }
+
+        if (self.getCurrentMonster().getCurrentMove().getMoveAmmunition() == 0){
+            self.getCurrentMonster().removeMove(self.getCurrentMonster().getCurrentMove());
+        }
     }
 
     public void moveOption(Player p){

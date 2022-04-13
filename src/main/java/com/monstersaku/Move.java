@@ -11,7 +11,7 @@ package com.monstersaku;
 import java.util.List;
 //import java.util.ArrayList;
 
-public class Move {
+public class Move implements StatsBuff{
     private int id;
     private String moveType;
     private String name;
@@ -118,13 +118,39 @@ public class Move {
         return (int) damage;
     }
 
-    public int afterDamage(Monster monster) {
-        double damage = 0;
-        if (monster.isBurn()) {
-            damage = monster.getStats().getMaxHP() * 1/8;
-        } else if (monster.isPoison()) {
-            damage = monster.getStats().getMaxHP() * 1/16;
+    public double getFactor(int x){
+        double a = 0;
+        switch (x) {
+            case -4:
+                a = 2/6;
+                break;
+            case -3:
+                a = 2/5;
+                break;
+            case -2:
+                a = 2/4;
+                break;
+            case -1:
+                a = 2/3;
+                break;
+            case 0:
+                a = 1;
+                break;
+            case 1:
+                a = 3/2;
+                break;
+            case 2:
+                a = 4/2;
+                break;
+            case 3:
+                a = 5/2;
+                break;
+            case 4:
+                a = 6/2;
+                break;
+            default:
+                break;
         }
-        return (int) damage;
+        return a;
     }
 }

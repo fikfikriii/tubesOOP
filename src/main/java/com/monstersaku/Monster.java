@@ -261,7 +261,7 @@ public class Monster {
 
     public void aftersleep(){
         this.sleepLength -= 1;
-        System.out.printf("The remaining sleep length for %s is %d%n", this.name, this.sleepLength);
+        System.out.printf("The remaining sleep length for %s is %d turn(s) %n", this.name, this.sleepLength);
         if (this.sleepLength == 0){
             this.sleep = false;
             this.conditioned = false;

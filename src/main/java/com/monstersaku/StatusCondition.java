@@ -1,6 +1,6 @@
 package com.monstersaku;
 
-import java.util.Random;
+import java.lang.Math;
 
 public class StatusCondition extends Stats{
     private boolean isBurn = false;
@@ -40,5 +40,10 @@ public class StatusCondition extends Stats{
 
     public int paralyzed(){
         return (super.getSpeed() / 2);
+    }
+
+    public int slept(){
+        double random = Math.random() * 7;
+        return (int)Math.round(random);
     }
 }

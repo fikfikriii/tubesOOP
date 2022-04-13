@@ -170,7 +170,6 @@ public class Game2 {
                         Stats stats = new Stats(HP, att, def, spAtt, spDef, speed); // berhasil inisiasi stats
 
                         // ini buat moves
-                        CSVReader reader2 = new CSVReader(new File(BackupMain.class.getResource("configs/movepool.csv").toURI()), ";");
                         reader.setSkipHeader(true);
                         List<String[]> lines2 = reader.read();
                         for (String[] line2 : lines2) {

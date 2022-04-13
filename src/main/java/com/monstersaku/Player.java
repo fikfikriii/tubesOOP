@@ -53,10 +53,14 @@ public class Player {
         this.monsters = mp;
     }
 
+    public void setCurrentMonster(Monster m){
+        this.currentMonster = m;
+    }
+
     public void setMonsterPool(int i, MonsterPool listMonster){
         try {
             System.out.println("Getting random monster for " + this.name + " ....");
-            //Thread.sleep(3000);
+            Thread.sleep(3000);
             List<Monster> copyMonsterPool = listMonster.getListMonster();
             List<Monster> copyMonsterPool2 = listMonster.getListMonster();
             List<Monster> copyList = new ArrayList<Monster>(copyMonsterPool);
@@ -88,7 +92,7 @@ public class Player {
     public void randomMonster(){
         try {
             System.out.println(this.name + " choosing monster....");
-            Thread.sleep(10);
+            Thread.sleep(1000);
             int index = new Random().nextInt(monsters.getSize());
             currentMonster = (monsters.getListMonster()).get(index);
             this.switchOption();

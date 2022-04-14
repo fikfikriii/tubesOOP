@@ -160,10 +160,48 @@ public class Monster {
         return (int) damage;
     }
 
-    public void moveStatus(){
+    public int defaultDamage(Monster enemy, EffectivityPool ep){
+        double damage = 0;
+        double random = 0.85 + Math.random() * (0.15);
+        damage = (50.0 * ((double)this.getStats().getAtt() / (double)enemy.getStats().getDef()) + 2) * random * getDefaultMoveEffectivity(ep, enemy) * this.burned();
+        return (int)damage;
+    }
+
+    public void afterDefaultMove(){
+        System.out.printf("%s current HP is %d %n", this.name, this.getStats().getHP());
+        int x = (int)this.getStats().getMaxHP()/4;
+        System.out.printf("%s takes %d damage %n", this.name, x);
+        if (this.getStats().getHP() > x){
+            this.getStats().setHP(this.getStats().getHP() - x);
+            System.out.printf("%s remaining HP is %d %n", this.name, this.getStats().getHP());
+        } else {
+            System.out.printf("%s remaining HP is 0 %n", this.name);
+            System.out.printf("%s died %n", this.name);
+        }
         System.out.println();
-        
-        StatusMove s = (StatusMove) this.getCurrentMove();
+    }
+
+    public double getDefaultMoveEffectivity(EffectivityPool ep, Monster m){
+        double val = 0;
+        ElementType def = ElementType.NORMAL;
+        List<Effectivity> le = ep.getListEffecitivty();
+        for (Effectivity e : le){
+            if (def == e.getSource()){
+                for (ElementType et : m.elementType()){
+                    if (e.getTarget() == et){
+                        val = e.getEffectivity();
+                        break;
+                    }
+                }
+            }
+        }
+
+        return val;
+    }
+
+    public void moveStatus(StatusMove s){
+
+        //StatusMove s = (StatusMove)this.getCurrentMove();
         
         System.out.printf("~~~ Stats change for enemy's %s ~~~%n", this.name);
 
@@ -200,6 +238,8 @@ public class Monster {
         int spDef = (int)(this.getStats().getSpDef() * s.getFactor(s.getSpDefEff()));
         this.getStats().setSpDef(spDef);
         System.out.printf("Special defence after move: %d%n", this.getStats().getSpDef());
+        
+        System.out.println();
        
     }
 

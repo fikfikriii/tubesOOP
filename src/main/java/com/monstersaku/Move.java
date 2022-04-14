@@ -119,38 +119,24 @@ public class Move implements StatsBuff{
     }
 
     public double getFactor(int x){
-        double a = 0;
-        switch (x) {
-            case -4:
-                a = 2/6;
-                break;
-            case -3:
-                a = 2/5;
-                break;
-            case -2:
-                a = 2/4;
-                break;
-            case -1:
-                a = 2/3;
-                break;
-            case 0:
-                a = 1;
-                break;
-            case 1:
-                a = 3/2;
-                break;
-            case 2:
-                a = 4/2;
-                break;
-            case 3:
-                a = 5/2;
-                break;
-            case 4:
-                a = 6/2;
-                break;
-            default:
-                break;
+        if (x == -4){
+            return (double)2/6;
+        } else if (x == -3){
+            return (double)2/5;
+        } else if (x == -2){
+            return (double)2/4;
+        } else if (x == -1){
+            return (double)2/3;
+        } else if (x == 0){
+            return (double)1;
+        } else if (x == 1){
+            return (double)3/2;
+        } else if (x == 2){
+            return (double)4/2;
+        } else if (x == 3){
+            return (double)5/2;
+        } else {
+            return (double)6/2;
         }
-        return a;
     }
 }

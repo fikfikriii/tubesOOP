@@ -177,6 +177,7 @@ public class Monster {
         } else {
             System.out.printf("%s remaining HP is 0 %n", this.name);
             System.out.printf("%s died %n", this.name);
+            this.isAlive = false;
         }
         System.out.println();
     }
